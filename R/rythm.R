@@ -38,24 +38,8 @@ rPVI <- function(x,na.rm=TRUE){
 
 nPVI <- function(x,na.rm=TRUE){
   
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  
-  tryCatch({
-    xL <- length(x)
-    x1 <- x[1:(xL-1)]
-    x2 <- x[2:xL]
-    ud <- ( x2 - x1 )
-    ld <- (x2 + x1)/2
-    tot <- abs( ud / ld)
-    npvi <- sum( tot ) / (xL -1)
-    return(100 *npvi)
-  },error=function(e) return(NA))
-  
-
+  npvi <- cppnPVI(x,na.rm)
+  return(npvi)
 }
 
 
