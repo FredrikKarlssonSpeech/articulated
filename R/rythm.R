@@ -13,34 +13,13 @@
 ##'@references Nolan, F., & Asu, E. L. (2009). The Pairwise Variability Index and Coexisting Rhythms in Language. Phonetica, 66(1-2), 64–77. doi:10.1159/000208931 
 ##'
 
-new_rPVI <- function(x,na.rm=TRUE){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
+rPVI <- function(x,na.rm=TRUE){
+ 
   rpvi <- cpprPVI(x,na.rm)
   return(rpvi)
 }
 
 
-
-rPVI <- function(x,na.rm=TRUE){
-  # if(na.rm){
-  #   x <- as.vector(na.exclude(x))
-  # }else{
-  #   x <- as.vector(x)
-  # }
-  tryCatch({
-    xL <- length(x)
-    x1 <- x[1:(xL-1)]
-    x2 <- x[2:xL]
-    
-    rpvi <- sum(abs(x2 - x1)) / (xL -1)
-    return(rpvi) 
-  },error=function(e) return(NA))
-  
-}
 
 ##' Normalized pairwise variability index.
 ##' 
