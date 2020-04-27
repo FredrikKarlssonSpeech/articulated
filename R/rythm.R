@@ -85,29 +85,14 @@ jitter_local <- function(x,
 ##' 
 ##' 
 
-jitter_ddp <- function(x,min.period=NULL, max.period=NULL,na.rm=TRUE){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  x <- x[is.null(min.period) || x >= min.period]
-  x <- x[is.null(max.period) || x <= max.period]
-  # absDDP(seconds) = ∑i=2N-1 |(Ti+1 - Ti) - (Ti - Ti-1)| / (N - 2)
-  xL <- length(x)
-
-  tryCatch({
-      xn1 <- x[1:(xL-2)]
-      xi <- x[2:(xL-1)]
-      xp1 <- x[3:(xL)]
-      
-      jitt <- sum(abs( (xp1 - xi) - (xi - xn1 )  ))/(xL-2)
-      return(list(absDDP=jitt,DDP=jitt/mean(x)))  
-      
-    },error=function(e) return(list(absDDP=NA,DDP=NA)))
-    
-
+jitter_ddp  <- function(x,
+                         min.period=-.Machine$integer.max, 
+                         max.period=.Machine$integer.max,
+                         absolute = FALSE,
+                         na.rm=TRUE){
   
+  jitt <- cppJitterDDP(x,min.period,max.period,absolute,na.rm)
+  return(jitt)
 }
 
 

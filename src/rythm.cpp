@@ -105,13 +105,7 @@ double cppJitterDDP(NumericVector x,
   
   if(n > 1){
     sum = x[0] + x[n-1];
-    
-    /*xn1 <- x[1:(xL-2)]
-    xi <- x[2:(xL-1)]
-    xp1 <- x[3:(xL)]
-    
-    jitt <- sum(abs( (xp1 - xi) - (xi - xn1 )  ))/(xL-2) */
-    
+  
     for(int i = 1; i < (n-1); ++i) {
       xn1 = x[i-1];
       xi = x[i];
