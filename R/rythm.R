@@ -52,41 +52,26 @@ nPVI <- function(x,na.rm=TRUE){
 ##' @param x The input vector
 ##' @param min.period The minimum value to be included in the calculation.
 ##' @param max.period The maximum value to be included in the calculation.
+##' @param absolute Should the (local) Jitter value be returned (absolute=FALSE), or the absolute (local) Jitter (absolute=TRUE). In the case of absolute (local) Jitter, the jitter will *not* be devided by the average period.
 ##' @param na.rm Should missing intervals be removed?
 ##' 
-##' @return A list containing 
-##'   \item{Jitt}{local Jitt (in percent, \eqn{1..200}{1.200} }
-##'   \item{absJitt}{absolute local Jitter values (in s)}
-##'   \item{MDVPPathJitt}{the level indicated by MDVP as the threshold for patological voice for Jitt}
-##'   \item{NDVPPathabsJitt}{the level indicated by MDVP as the threshold for patological voice for Jitta (absolute local Jitter)}
-##'  If the vector contains less than two values, NA is returned.
+##' @return A value indicating the (local) jitter (absolute=FALSE) or the absolute (local) jitter (absolute=TRUE).
+
   
 
 
 
-jitter_local <- function(x,min.period=NULL, max.period=NULL,na.rm=TRUE){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  x <- x[is.null(min.period) || x >= min.period]
-  x <- x[is.null(max.period) || x <= max.period]
-  
-  # jitter(seconds) = ∑i=2N |Ti - Ti-1| / (N - 1)
-  xL <- length(x)
+jitter_local <- function(x,
+                         min.period=-.Machine$integer.max, 
+                         max.period=.Machine$integer.max,
+                         absolute = FALSE,
+                         na.rm=TRUE){
 
-  tryCatch({
-    xn1 <- x[1:(xL-1)]
-    xi <- x[2:xL]
-    
-    jitt <- sum(abs(xi-xn1))/(xL-1)
-    return(list(absJitt=jitt,Jitt=jitt/mean(x),MDVPPathJitt=1.040,NDVPPathabsJitt=0.0000832))
-    
-  },error=function(e) return(list(absJitt=NA,Jitt=NA,MDVPPathJitt=1.040,NDVPPathabsJitt=0.0000832)))
+  jitt <- cppJitterLocal(x,min.period,max.period,absolute,na.rm)
+  return(jitt)
 }
 
-##' Computes theDifference of Differences of Periods (DDP) of a vector.
+##' Computes the Difference of Differences of Periods (DDP) of a vector.
 ##' 
 ##' @author Fredrik Karlsson
 ##' @export
