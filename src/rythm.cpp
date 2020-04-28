@@ -193,3 +193,38 @@ double cppJitterPPQ5(NumericVector x,
   } 
   return jitt;
 }
+
+
+// [[Rcpp::export]]
+double cppRelstab(NumericVector x,
+                  int compstart = 5,
+                  int compstop = 12,
+                  bool narm = true) {
+  if(narm){
+    x = x[!is_na(x)];  
+  }
+  
+  if(compstart < 5){
+    Rcpp::stop("You cant investigate the stability of a sequence that is within the reference (that is, in the  first four syllables). Pleans provide a compstart > 4.");
+  }
+  
+  double relstab = R_NaReal;
+  double compsum = 0, refsum = 0;
+  int n = x.size();
+  
+  if(n >= (compstop - 1)){
+    // References from cycles 1-4
+    for(int i = 0; i < 4 ; ++i) {
+      refsum += x[i];
+    }
+    
+    for(int i = (compstart-1); i < compstop ; ++i) {
+      compsum += x[i];
+    }
+
+    relstab = compsum / refsum * 100; 
+  } 
+  return relstab;
+}
+
+

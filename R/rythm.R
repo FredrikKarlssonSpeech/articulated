@@ -203,17 +203,18 @@ COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
   return(out) 
 }
 
-##' Computes the Pace stability from a vector of syllable durations.
+##' Computes the "relative pace stability" of a vector of syllable durations.
 ##' The vector must contain at least 20 syllables.
 ##' 
-##' The function computes the mean of intervals mid and final parts of sequence and relates that to the mean of intervals 1-4 The two means are returned as separate mean fractions (*100). If n is specified, only n syllables are included.
 ##' 
 ##' @author Fredrik Karlsson
 ##' @export
 ##' 
-##' @inheritParams COV5_x
+##' @param x The input vector containing syllable durations.
+##' @param kind Should the relative stability be computed for intervals $5..12$ (kind = "5_12") or $13..20$ (kind = "13_20").
+##' @param na.rm Should NA intervals be removed before computing the relative pace stability? Please note that one NA value in a syllable duration vector means that relstab(kind="5_12") will compute the stability of syllables 5-13 or 6-13 instead of 5-12 when the NA value is removed, which is  likelly not what you want. 
 ##' 
-##' @return A vector of 2 values, one for the pace stability of intervals $5..12$ and one for $13..20$.
+##' @return A single numeric value indicating the relative pace stability, or NA if the vector was not long enough.
 ##' 
 ##' @references
 ##' 
@@ -221,50 +222,26 @@ COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
 ##' 
 ##' 
 
-pace.stability <- function(x,kind=c("5_12","13_20"),return.na=TRUE,na.rm=FALSE ){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
+relstab <- function(x,kind="5_12",na.rm=FALSE ){
   
-  xL <- length(x)
-
-  first <- 1:4
-  mid <- 5:12
-  rest <- 13:20
-  indicies <- FALSE
-  # print(N)
-  if(kind == "5_12" & xL >= 12 ){
-    indicies <- mid
-  } 
-  if (kind == "13_20" & xL >= 20){
-    indicies <- rest
-  } 
-
-  out <- (mean(x[indicies],na.rm=na.rm) / mean(x[first],na.rm=na.rm)) * 100
-  
-  if(! is.na(out)) {
-    return(out)
-  }else{
-    if(return.na){
-      return(NA)
-    }else{
-      stop("Error! Not enough syllables to compute pace stability in accordance with the specification.")
-    }    
-  }
-
+  ps <- switch(kind,
+               "5_12" = cppRelstab(x,compstart = 5,compstop = 12,narm=na.rm),
+               "13_20" = cppRelstab(x,compstart = 13,compstop = 20,narm=na.rm)
+               )
+  if(is.null(ps)) stop("Error: You may only ask for kinds \"5_12\" and \"13_20\".")
+  return(ps)
 }
 
 
-##' Computes Pace accelleration in  a vector of intervals.
+##' Computes pace acceleration (%PA) in  a vector of intervals.
 ##' 
-##' The acceleration is computed based on 
 ##' 
 ##' @author Fredrik Karlsson
 ##' @export
 ##' 
-##' @inheritParams COV5_x
+##' @param x The input vector containing syllable durations.
+##' @param return.na boolean;Return NA in the case there are not 20 intervals in the series?
+##' @param na.rm Should NA intervals be removed before computing the relative %PA? Please note that one NA value in a syllable duration vector means that the function will compute the %PA of syllables up to the 21st (and not the 20th as was defined in the original publication), which is likelly not what you want.
 ##' 
 ##' 
 ##' @references
@@ -273,19 +250,19 @@ pace.stability <- function(x,kind=c("5_12","13_20"),return.na=TRUE,na.rm=FALSE )
 ##' 
 ##'
 
-pace.acceleration <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  ps512 <- pace.stability(x,n=n,kind="5_12",return.na)
-  ps1320 <- pace.stability(x,n=n,kind="13_20",return.na)
-  out <-  ps512  - ps1320
-  if(is.na(out) && return.na){
-    return(out) 
-  }else{
-    stop("Unable to compute pace accelleration: too few intervals.")
+PA <- function(x,return.na=TRUE,na.rm=FALSE){
+  out <- NA
+  ps512 <- relstab(x,kind="5_12",na.rm=na.rm)
+  ps1320 <- relstab(x,kind="13_20",na.rm=na.rm)
+  out <-   ps1320 - ps512
+  
+  if(return.na){
+    #Return regardless
+    return(out)
+  } else {
+    if(is.na(out)){
+      stop("Unable to compute pace accelleration: At least 20 intervals are required.")
+    }
   }
 
 }
