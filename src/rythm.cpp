@@ -103,7 +103,7 @@ double cppJitterDDP(NumericVector x,
   double totaldev = 0, sum = 0;
   int n = x.size();
   
-  if(n > 1){
+  if(n > 3){
     sum = x[0] + x[n-1];
   
     for(int i = 1; i < (n-1); ++i) {
@@ -116,6 +116,77 @@ double cppJitterDDP(NumericVector x,
       }
     }
     jitt = totaldev / (n-2);
+    if(! absolute){
+      jitt = jitt / (sum / n);
+    }
+  } 
+  return jitt;
+}
+
+// [[Rcpp::export]]
+double cppJitterRAP(NumericVector x, 
+                    int minperiod , 
+                    int maxperiod ,
+                    bool absolute = false,
+                    bool narm = true) {
+  if(narm){
+    x = x[!is_na(x)];  
+  }
+  double xp1 = 0, xn1 = 0,xi=0;
+  double jitt = R_NaReal;
+  double totaldev = 0, sum = 0;
+  int n = x.size();
+  
+  if(n > 3){
+    sum = x[0] + x[n-1];
+    
+    for(int i = 1; i < (n-1); ++i) {
+      xn1 = x[i-1];
+      xi = x[i];
+      xp1 = x[i+1];
+      if(xi >= minperiod && xi <= maxperiod ){
+        totaldev += std::abs( xi - ( xn1 + xi + xp1 )/3 );
+        sum += xi;
+      }
+    }
+    jitt = totaldev / (n-2);
+    if(! absolute){
+      jitt = jitt / (sum / n);
+    }
+  } 
+  return jitt;
+}
+
+// [[Rcpp::export]]
+double cppJitterPPQ5(NumericVector x, 
+                    int minperiod , 
+                    int maxperiod ,
+                    bool absolute = false,
+                    bool narm = true) {
+  if(narm){
+    x = x[!is_na(x)];  
+  }
+  double xn2 = 0, xn1 = 0,xi=0, xp1 = 0, xp2= 0;
+  double jitt = R_NaReal;
+  double totaldev = 0, sum = 0;
+  int n = x.size();
+  
+  if(n > 4){
+    sum = x[0] + x[1] + x[n-1] + x[n-2];
+    
+    for(int i = 2; i < (n-2); ++i) {
+      xn2 = x[i-2];
+      xn1 = x[i-1];
+      xi = x[i];
+      xp1 = x[i+1];
+      xp2 = x[i+2];
+      
+      if(xi >= minperiod && xi <= maxperiod ){
+        totaldev += std::abs( xi - (xn2 + xn1 + xi + xp1 + xp2)/5 );
+        sum += xi;
+      }
+    }
+    jitt = totaldev / (n-4);
     if(! absolute){
       jitt = jitt / (sum / n);
     }

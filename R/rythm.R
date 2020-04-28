@@ -79,9 +79,10 @@ jitter_local <- function(x,
 ##' @param x The input vector
 ##' @param min.period The minimum value to be included in the calculation.
 ##' @param max.period The maximum value to be included in the calculation.
+##'  @param absolute Should the Jitter DDP value be returned (absolute=FALSE), or the absolute Jitter DDP(absolute=TRUE). In the case of absolute Jitter DDP, the jitter will *not* be devided by the average period.
 ##' @param na.rm Should missing intervals be removed?
 ##' 
-##' @return A list containing the DDP (in s) and absolute DDP (\code{absDDP}) values (in percent, $1..600%$) for the vector of values. If the vector contains less than three values, NA is returned.
+##' @return   ##' @return A value indicating the  jitter DDP (in s) (absolute=FALSE) or the absolute jitter DDP (in percent, $1..600%$) (absolute=TRUE).
 ##' 
 ##' 
 
@@ -104,35 +105,22 @@ jitter_ddp  <- function(x,
 ##' @param x The input vector
 ##' @param min.period The minimum value to be included in the calculation.
 ##' @param max.period The maximum value to be included in the calculation.
+##'  @param absolute Should the Jitter RAP value be returned (absolute=FALSE), or the absolute Jitter RAP(absolute=TRUE). In the case of absolute Jitter RAP, the jitter will *not* be devided by the average period. 
 ##' @param na.rm Should missing intervals be removed?
 ##' 
-##' @return A list containing the RAP (in percent, $1..200%$) and absolute PPQ5 (\code{absAP}) values (in s) for the vector of values. If the vector contains less than three values, NA is returned.
+##' @return A list containing the RAP (in percent, $1..200%$) or absolute PPQ5 (\code{absAP}) values (in s) for the vector of values. If the vector contains less than three values, NA is returned.
 ##' 
 ##'
 ##'
 
-jitter_rap <- function(x,min.period=NULL, max.period=NULL,na.rm=TRUE){
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  x <- x[is.null(min.period) || x >= min.period]
-  x <- x[is.null(max.period) || x <= max.period]
+jitter_rap <- function(x,
+                       min.period=-.Machine$integer.max, 
+                       max.period=.Machine$integer.max,
+                       absolute = FALSE,
+                       na.rm=TRUE){
   
-  
-  # absAP(seconds) = ∑i=2N-1 |Ti - (Ti-1 + Ti + Ti+1) / 3| / (N - 2)
-  
-  xL <- length(x)
-  tryCatch({
-      xn1 <- x[1:(xL-2)]
-      xi <- x[2:(xL-1)]
-      xp1 <- x[3:(xL)]
-      
-      jitt <- sum(abs(xi - ( xn1 + xi + xp1 )/3 ))/(xL-2)
-      return(list(absRAP=jitt,RAP=jitt/mean(x)))
-  },error=function(e) return(list(absRAP=NA,RAP=NA)))
-    
+  jitt <- cppJitterRAP(x,min.period,max.period,absolute,na.rm)
+  return(jitt)
 }
 
 ##' Computes the five-point Period Perturbation Quotient (PPQ5) of a vector.
@@ -143,39 +131,23 @@ jitter_rap <- function(x,min.period=NULL, max.period=NULL,na.rm=TRUE){
 ##' @param x The input vector
 ##' @param min.period The minimum value to be included in the calculation.
 ##' @param max.period The maximum value to be included in the calculation.
-##' @param na.rm Should missing intervals be removed
+##'  @param absolute Should the Jitter RAP value be returned (absolute=FALSE), or the absolute Jitter PPQ5 (absolute=TRUE). In the case of absolute Jitter PPQ5, the jitter will *not* be devided by the average period. 
+##' @param na.rm Should missing intervals be removed?
+##' 
+##' @return A list containing the jitter PPQ5 (in percent, 1..400%) or absolute PPQ5 values (in s, 1..4) for the vector of values. If the vector contains less than five values, NA is returned.
 ##'   
-##' @return A list containing the PPQ5 (in percent, 1..400%) and absolute PPQ5 (\code{absPPQ5}) values (in s) for the vector of values. If the vector contains less than five values, NA is returned.
 ##'   
 ##'   
 ##'   
 
-jitter_ppq5 <- function(x,min.period=NULL, max.period=NULL,na.rm=TRUE){
-
-  if(na.rm){
-    x <- as.vector(na.exclude(x))
-  }else{
-    x <- as.vector(x)
-  }
-  x <- x[is.null(min.period) || x >= min.period]
-  x <- x[is.null(max.period) || x <= max.period]
-
-  # absPPQ5(seconds) = ∑i=3N-2 |Ti - (Ti-2 + Ti-1 + Ti + Ti+1 + Ti+2) / 5| / (N - 4)
+jitter_ppq5 <- function(x,
+                                   min.period=-.Machine$integer.max, 
+                                   max.period=.Machine$integer.max,
+                                   absolute = FALSE,
+                                   na.rm=TRUE){
   
-  xL <- length(x)
-
-  tryCatch({
-    xn2 <- x[1:(xL-4)]
-    xn1 <- x[2:(xL-3)]
-    xi <- x[3:(xL-2)]
-    xp1 <- x[4:(xL-1)]
-    xp2 <- x[5:(xL)]
-    
-    
-    jitt <- sum(abs(xi - (xn2 + xn1 + xi + xp1 + xp2)/5 ))/(xL-4)
-    return(list(absPPQ5=jitt,PPQ5=jitt/mean(x)))
-  },error=function(e) return(list(absPPQ5=NA,PPQ5=NA)))
-
+  jitt <- cppJitterPPQ5(x,min.period,max.period,absolute,na.rm)
+  return(jitt)
 }
 
 
@@ -316,99 +288,5 @@ pace.acceleration <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
     stop("Unable to compute pace accelleration: too few intervals.")
   }
 
-}
-
-##' An implementation of the Enveolope Modulation Spectrum (EMS) for speech analysis
-##' 
-##' @author Fredrik Karlsson
-##' @export
-##' 
-##' @param file File to be analysed.
-##' @param plot.ems boolean; should the resulting EMS be plotted when it has been computed?
-##' @param plot.oscillogram boolean; should the signal be plotted after having been downsampled to 80Hz?
-##' @param fftw boolean; use the fftw package be used when computing the power spectrum. This package needs to be installed then.
-##' @return a matrix containing the computed EMS.
-##' 
-##' @references 
-##' Liss, J. M. M., LeGendre, S., & Lotto, A. J. (2010). Discriminating Dysarthria Type From Envelope Modulation Spectra. Journal of Speech, Language and Hearing Research, 53(5), 1246–10. http://doi.org/10.1044/1092-4388(2010/09-0121)
-##' 
-
-EMS <- function(file,plot.ems=TRUE,plot.oscillogram=FALSE,fftw=TRUE){
-  # require(seewave)
-  # require(tuneR)
-  readWave(file) -> samp
-  resamp(samp,g=80,output="Wave") -> samp80
-  env(samp80,plot=plot.oscillogram,norm=TRUE) -> sampenv80
-  if(! plot.ems){
-    spec(sampenv80^2,f=80,plot=FALSE,norm=TRUE,fftw=fftw) -> sampspec 
-  }else{
-    spec(sampenv80^2,f=80,norm=TRUE,fftw=fftw) -> sampspec
-  }
-
-  return(sampspec)
-  
-}
-
-emsPeak <- function(inSpec,output.components=c("freq","amp")){
-  if(!class(inSpec) %in%c ("matrix","data.frame")){
-    stop("The spectrum needs to be a matrix or a data.frame object!")
-  }
-  mean(inSpec[,2],na.rm=TRUE) -> mamp
-  fpeaks(out,plot=FALSE) -> specP
-  subset(as.data.frame(specP),amp==max(amp),select=output.components) -> out
-  #Normalize by average amp in the spectrum
-  out$amp <- out$amp / mamp
-  return(as.list(out))
-}
-
-# The present study calculated the modulation spec- tra for amplitude envelopes extracted from the full sig- nal and seven octave bands (center frequencies of 125, 250, 500, 1000, 2000, 4000, and 8000). From each of these eight modulation spectra, six variables were computed (see Table 1). These 48 dependent variables (8 envelopes × 6 metrics) can be calculated from any signal using a fully automated program developed in MATLAB (Mathworks). The signal is filtered into the octave bands (pass-band eighth-order Chebyshev digital filters), and the ampli- tude envelope is extracted (half-wave rectified, followed by 30-Hz low-pass fourth-order Butterworth filter) and downsampled (to 80 Hz, mean subtracted). The power spectrum of each down-sampled envelope is calculated with a 512-point fast Fourier transform using a Tukey window and converted to decibels for frequencies up to 10 Hz (normalized to maximum autocorrelation). The six EMS metrics are then computed from the resulting spec- trum for each band (and the full signal).
-
-##' A utility function to split labels
-##' 
-##' The function assumes that numbers in the label indicate a count. Text parts of the label (numbers removed) are then used as labels in \code{count} repetitions of the row, with the interval between \code{starttime} and \code{endtime} split into \code{count} intervals.
-##' 
-##' @author Fredrik Karlsson
-##' @export
-##' 
-##' @param labels A vector of labels. If \code{counts} is not set, numbers in the labels will be interpreted as counts, e.g. "C3" or "3C" will be interpreted as "a C interval to be split into 3 intervals".
-##' @param starttime A vector of start times for the labels.
-##' @param endtime A vector of end times for the labels.
-##' @param counts An optional vector indicating the number of partitions to make of each inteval. If not included, numbers will be extracted from the labels instead.
-##' 
-##' @return A data frame containing columns \code{label}, \code{endtime} and \code{endtime}, with intervals split as indicated.
-##' 
-
-
-expandCVn <- function(labels,starttime,endtime, counts=NULL){
-  if(length(labels) != length(starttime) | length(starttime) != length(endtime) | length(labels) != length(endtime)   ){
-    stop("The supplied vectors are not of the same length.")
-  }
-  if(!is.null(counts)){
-    numbers <- counts
-    nLabs <- labels
-  }else{
-    numbers <- gsub("[^1-9]+","",labels)
-    numbers <- as.numeric(numbers)
-    nLabs <- gsub("[1-9]+","",labels)
-  }
-  
-  deltas <- (endtime - starttime) / numbers
-  #Now, work only with numbers, nLabs, starttime and endtime
-  #df <- data.frame(labels=nLabs,num=numbers,starttime=starttime,endtime=endtime)
-  out <- data.frame(label=list(),starttime=list(),endtime=list())
-  for(i in seq_along(labels)){
-    currstart <- 0
-    for(count in 1:(numbers[i])){
-      currstart <- starttime[i]+ (deltas[i] * (count-1))
-      if((currstart + 1.5*deltas[i]) > endtime[i]){
-        currend <- endtime[i]
-      }else{
-        currend <- starttime[i] + (deltas[i] * (count))
-      }
-      row <- data.frame(label=nLabs[i],starttime=currstart,endtime=currend)
-      out <- rbind(out,row)
-    }
-  }
-  return(out)
 }
 
