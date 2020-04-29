@@ -4,12 +4,12 @@
 ##' @author Fredrik Karlsson
 ##' @export
 ##' 
-##' @param x The F_2 values of vowels.
-##' @param y The F_1 values of vowels.
+##' @param f1 The F_1 values of vowels.
+##' @param f2 The F_2 values of vowels.
 ##' @param method The method to use. Could be either one of "centroid" or "twomeans" (the default).
 ##' @param na.rm Boolean indicating whether NA:s should be removed in teh caluclations of mean values.
 ##'
-##' @return A vector containing the F_2 and F_1 values of the vowel space center.
+##' @return A list containing the F_2 and F_1 values of the vowel space center.
 ##'
 ##' @note Two methods are implemented. In the default method, a mean F_1 value are calculated in an initial stage, and separate F_2 means are then computed for points above a line y=mean(F_1), and one mean for values below that line. The F_2 value for the center point is then computed as the mean of the upper and lower mean F_2 values. The "wcentroid" method simply averages the F_2 and F_1 values and return that as the center point. The first method is preferable, as vowel spaces in a triangular shape are otherviwe quite likelly to have center points outside of the vowel triangle.
 ##' 
@@ -18,35 +18,35 @@
 ##'
 ##' @keywords misc utilities
 
-vowelspace.center <- function(x,y,method="wcentroid",na.rm=TRUE){
+vowelspace.center <- function(f1,f2,method="wcentroid",na.rm=TRUE){
   if(method == "centroid"){
-    xc <- mean(x,na.rm=na.rm)
-    yc <- mean(y,na.rm=na.rm)
+    f2c <- mean(f2,na.rm=na.rm)
+    f1c <- mean(f1,na.rm=na.rm)
   }
   
   if(method == "twomeans"){
     #Find yc =
-    yc <- mean(y,na.rm=na.rm)  
+    f1c <- mean(f1,na.rm=na.rm)  
     # Top point in x
     #X
-    xcH <- mean(x[y > yc ],na.rm=na.rm)
+    f2cH <- mean(f2[f1 > f1c ],na.rm=na.rm)
     
     #Bottom point
     #X
-    xcL <- mean(x[y < yc ],na.rm=na.rm)
+    f2cL <- mean(f2[f1 < f1c ],na.rm=na.rm)
     
-    xc = mean(c(xcH,xcL))
+    f2c = mean(c(f2cH,f2cL))
     #Now we have the center.. xc,xy
   }
   
   if(method == "wcentroid"){
     #Find yc =
-    yc <- mean(y,na.rm=na.rm)  
-    xc <- mean(x[y < yc ],na.rm=na.rm)
+    f1c <- mean(f1,na.rm=na.rm)  
+    f2c <- mean(f2[f1 < f1c ],na.rm=na.rm)
     #Now we have the center.. xc,xy
   }
   
-  return(c(xc,yc))
+  return(list("f2"=f2c,"f1"=f1c))
 }
 
 
