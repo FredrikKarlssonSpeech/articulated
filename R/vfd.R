@@ -176,8 +176,8 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
   if(is.null(center)){
     center <- vowelspace.center(f2,f1,method=center.method)
   }
-  f2c <- center[1]
-  f1c <- center[2]
+  f2c <- center$f2
+  f1c <- center$f1
   
   Rnorm <- sqrt( (f1-f1c)^2 + (f2-f2c)^2)
   Rangle <- atan2( (f1-f1c), (f2-f2c) )
@@ -244,4 +244,5 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
   
 }
 
+#vsdata <- data.frame(F1=c(rnorm(10000,mean=300,sd=100),rnorm(10000,mean=600,sd=100),rnorm(10000,mean=600,sd=100),rnorm(10000,mean=300,sd=100)),F2=c(rnorm(10000,mean=2200,sd=200),rnorm(10000,mean=1700,sd=200),rnorm(10000,mean=1000,sd=200),rnorm(10000,mean=900,sd=200)),Vowel=rep(c("i","ae","a","u"),c(100,100,100,100)),Speaker=sample(LETTERS[1:20],10000,replace=TRUE))
 

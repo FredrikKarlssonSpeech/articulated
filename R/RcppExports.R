@@ -5,3 +5,31 @@ rcpp_hello_world <- function() {
     .Call(`_articulated_rcpp_hello_world`)
 }
 
+cpprPVI <- function(x, narm) {
+    .Call(`_articulated_cpprPVI`, x, narm)
+}
+
+cppnPVI <- function(x, narm) {
+    .Call(`_articulated_cppnPVI`, x, narm)
+}
+
+cppJitterLocal <- function(x, minperiod, maxperiod, absolute = FALSE, narm = TRUE) {
+    .Call(`_articulated_cppJitterLocal`, x, minperiod, maxperiod, absolute, narm)
+}
+
+cppJitterDDP <- function(x, minperiod, maxperiod, absolute = FALSE, narm = TRUE) {
+    .Call(`_articulated_cppJitterDDP`, x, minperiod, maxperiod, absolute, narm)
+}
+
+cppJitterRAP <- function(x, minperiod, maxperiod, absolute = FALSE, narm = TRUE) {
+    .Call(`_articulated_cppJitterRAP`, x, minperiod, maxperiod, absolute, narm)
+}
+
+cppJitterPPQ5 <- function(x, minperiod, maxperiod, absolute = FALSE, narm = TRUE) {
+    .Call(`_articulated_cppJitterPPQ5`, x, minperiod, maxperiod, absolute, narm)
+}
+
+cppRelstab <- function(x, compstart = 5L, compstop = 12L, narm = TRUE) {
+    .Call(`_articulated_cppRelstab`, x, compstart, compstop, narm)
+}
+

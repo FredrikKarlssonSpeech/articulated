@@ -15,9 +15,114 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpprPVI
+double cpprPVI(NumericVector x, bool narm);
+RcppExport SEXP _articulated_cpprPVI(SEXP xSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpprPVI(x, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppnPVI
+double cppnPVI(NumericVector x, bool narm);
+RcppExport SEXP _articulated_cppnPVI(SEXP xSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppnPVI(x, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppJitterLocal
+double cppJitterLocal(NumericVector x, int minperiod, int maxperiod, bool absolute, bool narm);
+RcppExport SEXP _articulated_cppJitterLocal(SEXP xSEXP, SEXP minperiodSEXP, SEXP maxperiodSEXP, SEXP absoluteSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type minperiod(minperiodSEXP);
+    Rcpp::traits::input_parameter< int >::type maxperiod(maxperiodSEXP);
+    Rcpp::traits::input_parameter< bool >::type absolute(absoluteSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppJitterLocal(x, minperiod, maxperiod, absolute, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppJitterDDP
+double cppJitterDDP(NumericVector x, int minperiod, int maxperiod, bool absolute, bool narm);
+RcppExport SEXP _articulated_cppJitterDDP(SEXP xSEXP, SEXP minperiodSEXP, SEXP maxperiodSEXP, SEXP absoluteSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type minperiod(minperiodSEXP);
+    Rcpp::traits::input_parameter< int >::type maxperiod(maxperiodSEXP);
+    Rcpp::traits::input_parameter< bool >::type absolute(absoluteSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppJitterDDP(x, minperiod, maxperiod, absolute, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppJitterRAP
+double cppJitterRAP(NumericVector x, int minperiod, int maxperiod, bool absolute, bool narm);
+RcppExport SEXP _articulated_cppJitterRAP(SEXP xSEXP, SEXP minperiodSEXP, SEXP maxperiodSEXP, SEXP absoluteSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type minperiod(minperiodSEXP);
+    Rcpp::traits::input_parameter< int >::type maxperiod(maxperiodSEXP);
+    Rcpp::traits::input_parameter< bool >::type absolute(absoluteSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppJitterRAP(x, minperiod, maxperiod, absolute, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppJitterPPQ5
+double cppJitterPPQ5(NumericVector x, int minperiod, int maxperiod, bool absolute, bool narm);
+RcppExport SEXP _articulated_cppJitterPPQ5(SEXP xSEXP, SEXP minperiodSEXP, SEXP maxperiodSEXP, SEXP absoluteSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type minperiod(minperiodSEXP);
+    Rcpp::traits::input_parameter< int >::type maxperiod(maxperiodSEXP);
+    Rcpp::traits::input_parameter< bool >::type absolute(absoluteSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppJitterPPQ5(x, minperiod, maxperiod, absolute, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cppRelstab
+double cppRelstab(NumericVector x, int compstart, int compstop, bool narm);
+RcppExport SEXP _articulated_cppRelstab(SEXP xSEXP, SEXP compstartSEXP, SEXP compstopSEXP, SEXP narmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type compstart(compstartSEXP);
+    Rcpp::traits::input_parameter< int >::type compstop(compstopSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppRelstab(x, compstart, compstop, narm));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_articulated_rcpp_hello_world", (DL_FUNC) &_articulated_rcpp_hello_world, 0},
+    {"_articulated_cpprPVI", (DL_FUNC) &_articulated_cpprPVI, 2},
+    {"_articulated_cppnPVI", (DL_FUNC) &_articulated_cppnPVI, 2},
+    {"_articulated_cppJitterLocal", (DL_FUNC) &_articulated_cppJitterLocal, 5},
+    {"_articulated_cppJitterDDP", (DL_FUNC) &_articulated_cppJitterDDP, 5},
+    {"_articulated_cppJitterRAP", (DL_FUNC) &_articulated_cppJitterRAP, 5},
+    {"_articulated_cppJitterPPQ5", (DL_FUNC) &_articulated_cppJitterPPQ5, 5},
+    {"_articulated_cppRelstab", (DL_FUNC) &_articulated_cppRelstab, 4},
     {NULL, NULL, 0}
 };
 
