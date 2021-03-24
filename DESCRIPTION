@@ -1,13 +1,15 @@
 Package: articulated
 Type: Package
-Title: What the Package Does in One 'Title Case'
-     Line
-Version: 1.0
-Date: 2020-04-25
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the
-     package does as one or more full sentences.
+Title: This package adds 
+Version: 0.0.1
+Date: 2021-03-22
+Author: Fredrik Karlsson
+Maintainer: Fredrik Karlsson <fredrik.k.karlsson@umu.se>
+Description: This package adds functions to assess articulation errors and phonatory function from acoustic data. 
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.3)
+Imports: 
+    Rcpp (>= 1.0.3),
+    sqldf
 LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.1.1

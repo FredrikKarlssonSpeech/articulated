@@ -1,13 +1,22 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-/* This is the Rcpp versions of of rythm measures.
- * 
- * 
- */ 
-
+//' Raw pairwise variability index.
+//' 
+//' Computes the raw Pairwire Variability Index (rPVI) on a supplied vector of durations.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//' 
+//' @param x A vector of durations in arbitrary unit.
+//' @param na.rm Boolean indicating whether NA values should be removed before calculating rPVI.
+//' 
+//' @return A single value reprenting the rPVI for the vector of durations
+//' 
+//' @references Nolan, F., & Asu, E. L. (2009). The Pairwise Variability Index and Coexisting Rhythms in Language. Phonetica, 66(1-2), 64–77. doi:10.1159/000208931 
+//'
 // [[Rcpp::export]]
-double cpprPVI(NumericVector x, bool narm) {
+double rPVI(NumericVector x, bool narm) {
   int n = x.size();
   double rpvi = 0;
   double total = 0;
@@ -27,8 +36,24 @@ double cpprPVI(NumericVector x, bool narm) {
   return rpvi;
 }
 
+
+//' @title Normalized pairwise variability index.
+//' 
+//' Computes the normalized Pairwire Variability Index (nPVI) on a supplied vector of durations.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//' 
+//' @param x A vector of durations in arbitrary unit.
+//' @param na.rm Boolean indicating whether NA values should be removed before calculating nPVI.
+//' 
+//' @return A single value reprenting the nPVI for the vector of durations
+//' 
+//'@references Nolan, F., & Asu, E. L. (2009). The Pairwise Variability Index and Coexisting Rhythms in Language. Phonetica, 66(1-2), 64–77. doi:10.1159/000208931 
+//'
+
 // [[Rcpp::export]]
-double cppnPVI(NumericVector x, bool narm) {
+double nPVI(NumericVector x, bool narm) {
   if(narm){
     x = x[!is_na(x)];  
   }
@@ -52,8 +77,21 @@ double cppnPVI(NumericVector x, bool narm) {
   return npvi;
 }
 
+//' Computes the local jitter of a vector.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//' 
+//' @param x The input vector
+//' @param min.period The minimum value to be included in the calculation.
+//' @param max.period The maximum value to be included in the calculation.
+//' @param absolute Should the (local) Jitter value be returned (absolute=FALSE), or the absolute (local) Jitter (absolute=TRUE). In the case of absolute (local) Jitter, the jitter will *not* be devided by the average period.
+//' @param na.rm Should missing intervals be removed?
+//' 
+//' @return A value indicating the (local) jitter (absolute=FALSE) or the absolute (local) jitter (absolute=TRUE).
+
 // [[Rcpp::export]]
-double cppJitterLocal(NumericVector x, 
+double jitter_local(NumericVector x, 
                       int minperiod , 
                       int maxperiod ,
                       bool absolute = false,
@@ -86,11 +124,23 @@ double cppJitterLocal(NumericVector x,
   return jitt;
 }
 
-
+//' Computes the Difference of Differences of Periods (DDP) of a vector.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//' 
+//' @param x The input vector
+//' @param min.period The minimum value to be included in the calculation.
+//' @param max.period The maximum value to be included in the calculation.
+//'  @param absolute Should the Jitter DDP value be returned (absolute=FALSE), or the absolute Jitter DDP(absolute=TRUE). In the case of absolute Jitter DDP, the jitter will *not* be devided by the average period.
+//' @param na.rm Should missing intervals be removed?
+//' 
+//' @return   //' @return A value indicating the  jitter DDP (in s) (absolute=FALSE) or the absolute jitter DDP (in percent, $1..600%$) (absolute=TRUE).
+//' 
+//' 
  
-
 // [[Rcpp::export]]
-double cppJitterDDP(NumericVector x, 
+double jitter_ddp(NumericVector x, 
                       int minperiod , 
                       int maxperiod ,
                       bool absolute = false,
@@ -122,9 +172,22 @@ double cppJitterDDP(NumericVector x,
   } 
   return jitt;
 }
+//' Computes the Relative Average Perturbation (RAP) of a vector.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//' 
+//' @param x The input vector
+//' @param min.period The minimum value to be included in the calculation.
+//' @param max.period The maximum value to be included in the calculation.
+//'  @param absolute Should the Jitter RAP value be returned (absolute=FALSE), or the absolute Jitter RAP(absolute=TRUE). In the case of absolute Jitter RAP, the jitter will *not* be devided by the average period. 
+//' @param na.rm Should missing intervals be removed?
+//' 
+//' @return A list containing the RAP (in percent, $1..200%$) or absolute PPQ5 (\code{absAP}) values (in s) for the vector of values. If the vector contains less than three values, NA is returned.
+
 
 // [[Rcpp::export]]
-double cppJitterRAP(NumericVector x, 
+double jitter_rap(NumericVector x, 
                     int minperiod , 
                     int maxperiod ,
                     bool absolute = false,
@@ -157,8 +220,22 @@ double cppJitterRAP(NumericVector x,
   return jitt;
 }
 
+//' Computes the five-point Period Perturbation Quotient (PPQ5) of a vector.
+//' 
+//' @author Fredrik Karlsson
+//' @export
+//'  
+//' @param x The input vector
+//' @param min.period The minimum value to be included in the calculation.
+//' @param max.period The maximum value to be included in the calculation.
+//'  @param absolute Should the Jitter RAP value be returned (absolute=FALSE), or the absolute Jitter PPQ5 (absolute=TRUE). In the case of absolute Jitter PPQ5, the jitter will *not* be devided by the average period. 
+//' @param na.rm Should missing intervals be removed?
+//' 
+//' @return A list containing the jitter PPQ5 (in percent, 1..400%) or absolute PPQ5 values (in s, 1..4) for the vector of values. If the vector contains less than five values, NA is returned.
+  
+
 // [[Rcpp::export]]
-double cppJitterPPQ5(NumericVector x, 
+double jitter_ppq5(NumericVector x, 
                     int minperiod , 
                     int maxperiod ,
                     bool absolute = false,

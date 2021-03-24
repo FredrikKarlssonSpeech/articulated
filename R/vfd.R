@@ -244,5 +244,5 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
   
 }
 
-#vsdata <- data.frame(F1=c(rnorm(10000,mean=300,sd=100),rnorm(10000,mean=600,sd=100),rnorm(10000,mean=600,sd=100),rnorm(10000,mean=300,sd=100)),F2=c(rnorm(10000,mean=2200,sd=200),rnorm(10000,mean=1700,sd=200),rnorm(10000,mean=1000,sd=200),rnorm(10000,mean=900,sd=200)),Vowel=rep(c("i","ae","a","u"),c(100,100,100,100)),Speaker=sample(LETTERS[1:20],10000,replace=TRUE))
+
 
