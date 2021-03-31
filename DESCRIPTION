@@ -9,7 +9,8 @@ Description: This package adds functions to assess articulation errors and phona
 License: GPL (>= 2)
 Imports: 
     Rcpp (>= 1.0.3),
-    sqldf
+    Rdpack
+RdMacros: Rdpack
 LinkingTo: Rcpp
 Encoding: UTF-8
 RoxygenNote: 7.1.1
