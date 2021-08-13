@@ -1,20 +1,34 @@
 
 ##' Computes the center of a vowel space.
 ##'
+##' Two methods are implemented. In the default method, a mean F_1 value are
+##' calculated in an initial stage, and separate F_2 means are then computed for
+##' points above a line y=mean(F_1), and one mean for values below that line.
+##' The F_2 value for the center point is then computed as the mean of the upper
+##' and lower mean F_2 values. The "wcentroid" method simply averages the F_2
+##' and F_1 values and return that as the center point. The first method is
+##' preferable, as vowel spaces in a triangular shape are otherwise quite
+##' likely to have center points outside of the vowel triangle.
+##'
 ##' @author Fredrik Karlsson
 ##' @export
-##' 
+##'
 ##' @param f1 The F_1 values of vowels.
 ##' @param f2 The F_2 values of vowels.
-##' @param method The method to use. Could be either one of "centroid" or "twomeans" (the default).
-##' @param na.rm Boolean indicating whether NA:s should be removed in teh caluclations of mean values.
+##' @param method The method to use. Could be either one of "centroid" or
+##'   "twomeans" (the default).
+##' @param na.rm Boolean indicating whether NA:s should be removed in the
+##'   calculations of mean values.
 ##'
 ##' @return A list containing the F_2 and F_1 values of the vowel space center.
 ##'
-##' @note Two methods are implemented. In the default method, a mean F_1 value are calculated in an initial stage, and separate F_2 means are then computed for points above a line y=mean(F_1), and one mean for values below that line. The F_2 value for the center point is then computed as the mean of the upper and lower mean F_2 values. The "wcentroid" method simply averages the F_2 and F_1 values and return that as the center point. The first method is preferable, as vowel spaces in a triangular shape are otherviwe quite likelly to have center points outside of the vowel triangle.
-##' 
-##' @references Karlsson, F., & van Doorn, J. (2012). Vowel formant dispersion as a measure of articulation proficiency. The Journal of the Acoustical Society of America, 132(4), 2633–2641. doi:10.1121/1.4746025
 ##'
+##'
+##'
+##'
+##' @references
+##' 
+##' \insertRef{Karlsson:2012vb}{articulated}
 ##'
 ##' @keywords misc utilities
 
@@ -63,7 +77,9 @@ vowelspace.center <- function(f1,f2,method="wcentroid",na.rm=TRUE){
 ##'
 ##' @return A vector containing the vector length of each vowel space vector drawn from the origin of teh computed vowel space center coordinates.
 ##' 
-##' @references Karlsson, F., & van Doorn, J. (2012). Vowel formant dispersion as a measure of articulation proficiency. The Journal of the Acoustical Society of America, 132(4), 2633–2641. doi:10.1121/1.4746025
+##' @references
+##' 
+##' \insertRef{Karlsson:2012vb}{articulated}
 ##' 
 ##' @examples
 ##' data(pb)
@@ -122,7 +138,9 @@ vowelspace.corners <- function(f1,f2,na.rm=TRUE,center=NULL,center.method="wcent
 ##'
 ##' @return A vector containing the vector angles of each vowel space vector drawn from the origin of teh computed vowel space center coordinates.
 ##' 
-##' @references Karlsson, F., & van Doorn, J. (2012). Vowel formant dispersion as a measure of articulation proficiency. The Journal of the Acoustical Society of America, 132(4), 2633–2641. doi:10.1121/1.4746025
+##' @references
+##' 
+##' \insertRef{Karlsson:2012vb}{articulated}
 ##' 
 ##' @examples
 ##' data(pb)
@@ -168,6 +186,10 @@ vowel.angles <- function(f1,f2,na.rm=TRUE,center=NULL,center.method="wcentroid")
 ##' vsdata <- data.frame(F1=c(rnorm(100,mean=300,sd=100),rnorm(100,mean=600,sd=100),rnorm(100,mean=600,sd=100),rnorm(100,mean=300,sd=100)),F2=c(rnorm(100,mean=2200,sd=200),rnorm(100,mean=1700,sd=200),rnorm(100,mean=1000,sd=200),rnorm(100,mean=900,sd=200)),Vowel=rep(c("i","ae","a","u"),c(100,100,100,100)))
 ##' outvs <- vector.space(vsdata$F1,vsdata$F2)
 ##' summary(outvs)
+##' 
+##' @references
+##' 
+##' \insertRef{Karlsson:2012vb}{articulated}
 ##' 
 ##' @keywords misc utilities arith
 
@@ -244,5 +266,75 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
   
 }
 
+
+
+
+vsd <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25,na.rm=TRUE){
+  F1med <- median(F1,na.rm=na.rm)
+  F2med <- median(F2,na.rm=na.rm)
+  
+  F1adj <- (F1 - F1med) / F1med
+  F2adj <- (F2 - F2med) / F2med
+  nVowels <- length(F1adj)
+  
+
+  #Place a point in the center of a grid of "grid.res" size
+  gridx <- seq(-1+(grid.res/2),1.5,grid.res)
+  gr <- expand.grid(F1=gridx,F2=gridx)
+  gr$count <- NA
+  #Compute the vowel formants' distance from each point placed in the grid cell center
+  for(v in 1:nVowels){
+    F1 <- F1adj[v]
+    F2 <- F2adj[v]
+    for(g in 1:nrow(gr)){
+      gF1 <- gr[g,"F1"]
+      gF2 <- gr[g,"F2"]
+      d <- sqrt( (F1-gF1)^2 + (F2-gF2)^2 )
+      if(d <= resolution){
+        curr <- gr[g,"count"]
+        gr[g,"count"] <- ifelse(is.na(curr),0, curr + 1)
+      }
+    }
+  }
+  #Normalize to 0-1 to get a dist
+  gr$count <- gr$count / max(gr$count)
+  gr$count <- ifelse(gr$count < density.threshold, gr$count, NA)    
+
+  if(nrow(gr) > 0){
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
+  }else{
+    ch <- NA
+  }
+  return(ch)
+}
+
+vsd2 <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25,na.rm=TRUE){
+  F1med <- median(F1,na.rm=na.rm)
+  F2med <- median(F2,na.rm=na.rm)
+  
+  F1adj <- (F1 - F1med) / F1med
+  F2adj <- (F2 - F2med) / F2med
+  nVowels <- length(F1adj)
+  
+  
+  #Place a point in the center of a grid of "grid.res" size
+  gridx <- seq(-1+(grid.res/2),1.5,grid.res)
+  gr <- expand.grid(F1=gridx,F2=gridx)
+  #Get distance matrix between the points in the two different vectors
+  d <- Rfast::dista(data.frame(F2adj,F1adj), gr[,c("F2","F1")],type="euclidean") 
+  gr$count <- apply(d,2,function(x,res=resolution) {sum(x <=res,na.rm=na.rm) })
+  #Normalize to 0-1 to get a dist
+  gr$count <- gr$count / max(gr$count)
+  gr$count <- ifelse(gr$count >= density.threshold, gr$count, NA)    
+  gr <- na.omit(gr)
+  
+  if(nrow(gr) > 0){
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
+    
+  }else{
+    ch <- NA
+  }
+  return(ch)
+}
 
 
