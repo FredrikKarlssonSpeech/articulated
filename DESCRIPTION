@@ -8,8 +8,10 @@ Maintainer: Fredrik Karlsson <fredrik.k.karlsson@umu.se>
 Description: This package adds functions to assess articulation errors and phonatory function from acoustic data. 
 License: GPL (>= 2)
 Imports: 
+    geometry,
     Rcpp (>= 1.0.3),
-    Rdpack
+    Rdpack,
+    Rfast
 RdMacros: Rdpack
 LinkingTo: Rcpp
 Encoding: UTF-8

@@ -267,50 +267,30 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 }
 
 
+#' Compute the Vowel space density from formant values
+#' 
+#' This function computes the Vowel space density from a vector of F_1 and F_2 measurements.
+#'
+#' @param F2 A vector of F2 formant frequency measurements, one for each measure vowel.
+#' @param F1 A vector of F1 formant frequency measurements, one for each measure vowel.
+#' @param resolution The distance on the normalized F2-F1 space within which vowels will be counted towards the tally of vowels in close proximity for the point. 
+#' @param grid.res The spectral resolution of the analysis.
+#' @param density.threshold The fraction of the maximum density of vowels below which the density will be considered zero.
+#' 
+#'
+#' @return
+#' An object of class [geometry::convhulln] consisting of 
+#' \begin{description}
+#'  \item{p}{A matrix of median normalized vowel space coordinates (F2,F1)}
+#'  \item{hull}{An n x 2 matrix giving the indicies of vowels in [p] which form the points holding up the convex hull}
+#'  \item{area}{The computed area of the convex hull around the vowel space made up of portions of the vowel space with a high enough distribution of vowels}
+#'  \item{vol}{The computed vowlume of the shape around the vowel space distribution}
+#' \end{description}
+#' @export
 
-
-vsd <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25,na.rm=TRUE){
-  F1med <- median(F1,na.rm=na.rm)
-  F2med <- median(F2,na.rm=na.rm)
-  
-  F1adj <- (F1 - F1med) / F1med
-  F2adj <- (F2 - F2med) / F2med
-  nVowels <- length(F1adj)
-  
-
-  #Place a point in the center of a grid of "grid.res" size
-  gridx <- seq(-1+(grid.res/2),1.5,grid.res)
-  gr <- expand.grid(F1=gridx,F2=gridx)
-  gr$count <- NA
-  #Compute the vowel formants' distance from each point placed in the grid cell center
-  for(v in 1:nVowels){
-    F1 <- F1adj[v]
-    F2 <- F2adj[v]
-    for(g in 1:nrow(gr)){
-      gF1 <- gr[g,"F1"]
-      gF2 <- gr[g,"F2"]
-      d <- sqrt( (F1-gF1)^2 + (F2-gF2)^2 )
-      if(d <= resolution){
-        curr <- gr[g,"count"]
-        gr[g,"count"] <- ifelse(is.na(curr),0, curr + 1)
-      }
-    }
-  }
-  #Normalize to 0-1 to get a dist
-  gr$count <- gr$count / max(gr$count)
-  gr$count <- ifelse(gr$count < density.threshold, gr$count, NA)    
-
-  if(nrow(gr) > 0){
-    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
-  }else{
-    ch <- NA
-  }
-  return(ch)
-}
-
-vsd2 <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25,na.rm=TRUE){
-  F1med <- median(F1,na.rm=na.rm)
-  F2med <- median(F2,na.rm=na.rm)
+VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
+  F1med <- median(F1,na.rm=TRUE)
+  F2med <- median(F2,na.rm=TRUE)
   
   F1adj <- (F1 - F1med) / F1med
   F2adj <- (F2 - F2med) / F2med
@@ -322,7 +302,7 @@ vsd2 <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25,na
   gr <- expand.grid(F1=gridx,F2=gridx)
   #Get distance matrix between the points in the two different vectors
   d <- Rfast::dista(data.frame(F2adj,F1adj), gr[,c("F2","F1")],type="euclidean") 
-  gr$count <- apply(d,2,function(x,res=resolution) {sum(x <=res,na.rm=na.rm) })
+  gr$count <- apply(d,2,function(x,res=resolution) {sum(x <=res,na.rm=TRUE) })
   #Normalize to 0-1 to get a dist
   gr$count <- gr$count / max(gr$count)
   gr$count <- ifelse(gr$count >= density.threshold, gr$count, NA)    
