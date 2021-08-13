@@ -269,7 +269,8 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 
 #' Compute the Vowel space density from formant values
 #' 
-#' This function computes the Vowel space density from a vector of F_1 and F_2 measurements.
+#' This function computes the Vowel space density from a vector of F_1 and F_2 measurements based on the algorithm of 
+#' \insertCitation{Story.2017.10.1121/1.4983342}{articulated}.
 #'
 #' @param F2 A vector of F2 formant frequency measurements, one for each measure vowel.
 #' @param F1 A vector of F1 formant frequency measurements, one for each measure vowel.
@@ -287,6 +288,13 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 #'  \item{vol}{The computed vowlume of the shape around the vowel space distribution}
 #' \end{description}
 #' @export
+#' @references 
+#'  \insertAllCited{}
+#'  
+#'  @examples 
+#'  data(pb)
+#'  VSD(pb[,"F2"],pb[,"F1"]) -> ch
+#'  plot(ch)
 
 VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
   F1med <- median(F1,na.rm=TRUE)
