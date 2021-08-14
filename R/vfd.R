@@ -326,4 +326,62 @@ VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
   return(ch)
 }
 
+#' Compute the Vowel space area using continuously measured formant frequency
+#' values
+#'
+#' This function implements the algorithm proposed by
+#' \insertCite{Sandoval.2013.10.1121/1.4826150}{articulated}, which takes
+#' continous measurements of formant frequencies for a speaker and computes the
+#' vowel space area from the convex hull of them, once spurious measurements
+#' have been removed using a likelihood threshold applied to the result of a
+#' Gaussian mixture model (GMM).
+#' 
+#' The GMM and convex hull computations are both based on computed euclidean distances between vowels.
+#'
+#' @param F2 A vector of F2 formant frequency measurements, one for each measure vowel.
+#' @param F1 A vector of F1 formant frequency measurements, one for each measure vowel.
+#' @param vowel_categories The number of vowel categories we should consider, which translates to the number of gaussian mixture components in the GMM. 
+#' @param threshold The threshold of the likelihood that the vowel formant frequency measurement must meet in order to be included in the convex hull.
+#' @param center Should the formant frequency measurements be centered using the mean frequency? This was not done in the original implementation.
+#' @param scale Should the formant frequency measurements be scaled to a 0-1 scale using the standard deviation of the formant frequencies? This was not done in the original implementation.
+#'
+#' @return
+#' An object of class [geometry::convhulln] consisting of 
+#' \begin{description}
+#'  \item{p}{A matrix of median normalized vowel space coordinates (F2,F1)}
+#'  \item{hull}{An n x 2 matrix giving the indicies of vowels in [p] which form the points holding up the convex hull}
+#'  \item{area}{The computed area of the convex hull around the vowel space made up of portions of the vowel space with a high enough distribution of vowels}
+#'  \item{vol}{The computed vowlume of the shape around the vowel space distribution}
+#' \end{description}
+#' @export
+#' @references 
+#'  \insertAllCited{}
+#'  
+#'  @examples 
+#'  data(pb)
+#'  cVSA(pb[,"F2"],pb[,"F1"]) -> ch
+#'  #Simple but informative plot
+#'  plot(ch,xlab="<-Back / Front -> (F2)",ylab="<-Closed / Open -> (F1)")
 
+cVSA <- function(F2, F1, vowel_categories=5,threshold=0.3,center=FALSE,scale=FALSE){
+  fdf <- data.frame("F2"=F2,"F1"=F1)
+  if(center | scale){
+    fdf <- ClusterR::center_scale(fdf, center=center,scale=scale)  
+  }
+  
+  clo <- ClusterR::GMM(fdf,gaussian_comps = vowel_categories, dist_mode="eucl_dist")
+  #This predicts clusters too, but that is not needed now.
+  #pr = ClusterR::predict_GMM(fdf, clo$centroids, clo$covariance_matrices, clo$weights)
+  #Keep only measurements with a likelihood above the threshold (0.3 in the original publication)
+  fVector <- exp(clo$Log_likelihood) >= threshold*exp(clo$Log_likelihood)
+  #Filter out unwanted vowel measurements
+  gr <- na.omit(fdf[fVector,])
+
+  if(nrow(gr) > 0){
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
+    
+  }else{
+    ch <- NA
+  }
+  return(ch)
+}

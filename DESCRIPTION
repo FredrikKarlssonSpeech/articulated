@@ -8,6 +8,7 @@ Maintainer: Fredrik Karlsson <fredrik.k.karlsson@umu.se>
 Description: This package adds functions to assess articulation errors and phonatory function from acoustic data. 
 License: GPL (>= 2)
 Imports: 
+    ClusterR,
     geometry,
     Rcpp (>= 1.0.3),
     Rdpack,
