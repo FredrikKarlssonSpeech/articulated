@@ -294,7 +294,8 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 #'  @examples 
 #'  data(pb)
 #'  VSD(pb[,"F2"],pb[,"F1"]) -> ch
-#'  plot(ch)
+#'  #Simple but informative plot
+#'  plot(ch,xlab="<-Back / Front -> (F2)",ylab="<-Closed / Open -> (F1)")
 
 VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
   F1med <- median(F1,na.rm=TRUE)
