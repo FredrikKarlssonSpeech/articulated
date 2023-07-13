@@ -12,8 +12,7 @@ PA(x, return.na = TRUE, omit = FALSE)
 \item{return.na}{boolean;Return NA in the case there are not 20 intervals in
 the series?}
 
-\item{omit}{Should NA intervals be removed before computing the relative
-%PA?}
+\item{omit}{Should NA intervals be removed before computing the relative \%PA?}
 }
 \description{
 Computes the pace acceleration of a DDK sequence according to the definition 
@@ -21,14 +20,12 @@ in \insertCite{Flasskamp:2011jq}{articulated}.
 }
 \details{
 Please note that one NA value in a syllable duration vector means
-that the function will compute the %PA of syllables up to the 21st (and
+that the function will compute the \%PA of syllables up to the 21st (and
 not the 20th as was defined in the original publication), which is likelly
 not what you want. Please use `omit=TRUE` to handle this case.
 }
 \references{
 \insertAllCited{}
-
-\insertRef{Flasskamp:2011jq}{articulated}
 }
 \author{
 Fredrik Karlsson

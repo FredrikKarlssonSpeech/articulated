@@ -89,7 +89,7 @@ relstab <- function(x,kind="5_12",omit=FALSE ){
 ##' in \insertCite{Flasskamp:2011jq}{articulated}.
 ##' 
 ##' Please note that one NA value in a syllable duration vector means
-##' that the function will compute the %PA of syllables up to the 21st (and
+##' that the function will compute the \%PA of syllables up to the 21st (and
 ##' not the 20th as was defined in the original publication), which is likelly
 ##' not what you want. Please use `omit=TRUE` to handle this case. 
 ##'
@@ -99,13 +99,10 @@ relstab <- function(x,kind="5_12",omit=FALSE ){
 ##' @param x The input vector containing syllable durations.
 ##' @param return.na boolean;Return NA in the case there are not 20 intervals in
 ##'   the series?
-##' @param omit Should NA intervals be removed before computing the relative
-##'   %PA? 
+##' @param omit Should NA intervals be removed before computing the relative \%PA? 
 ##'
 ##' @references 
 ##'   \insertAllCited{}
-##'
-##' \insertRef{Flasskamp:2011jq}{articulated}
 ##'
 ##' 
 
