@@ -30,7 +30,7 @@ with(with(pb,data.frame(angle=vowel.angles(F1,F2),vowel=Vowel)),tapply(angle,lis
 
 }
 \references{
-Karlsson, F., & van Doorn, J. (2012). Vowel formant dispersion as a measure of articulation proficiency. The Journal of the Acoustical Society of America, 132(4), 2633–2641. doi:10.1121/1.4746025
+\insertRef{Karlsson:2012vb}{articulated}
 }
 \seealso{
 See \code{\link{vector.space}} for details concerning the computations.

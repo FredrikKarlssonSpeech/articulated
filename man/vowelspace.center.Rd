@@ -11,21 +11,27 @@ vowelspace.center(f1, f2, method = "wcentroid", na.rm = TRUE)
 
 \item{f2}{The F_2 values of vowels.}
 
-\item{method}{The method to use. Could be either one of "centroid" or "twomeans" (the default).}
+\item{method}{The method to use. Could be either one of "centroid" or
+"twomeans" (the default).}
 
-\item{na.rm}{Boolean indicating whether NA:s should be removed in teh caluclations of mean values.}
+\item{na.rm}{Boolean indicating whether NA:s should be removed in the
+calculations of mean values.}
 }
 \value{
 A list containing the F_2 and F_1 values of the vowel space center.
 }
 \description{
-Computes the center of a vowel space.
-}
-\note{
-Two methods are implemented. In the default method, a mean F_1 value are calculated in an initial stage, and separate F_2 means are then computed for points above a line y=mean(F_1), and one mean for values below that line. The F_2 value for the center point is then computed as the mean of the upper and lower mean F_2 values. The "wcentroid" method simply averages the F_2 and F_1 values and return that as the center point. The first method is preferable, as vowel spaces in a triangular shape are otherviwe quite likelly to have center points outside of the vowel triangle.
+Two methods are implemented. In the default method, a mean F_1 value are
+calculated in an initial stage, and separate F_2 means are then computed for
+points above a line y=mean(F_1), and one mean for values below that line.
+The F_2 value for the center point is then computed as the mean of the upper
+and lower mean F_2 values. The "wcentroid" method simply averages the F_2
+and F_1 values and return that as the center point. The first method is
+preferable, as vowel spaces in a triangular shape are otherwise quite
+likely to have center points outside of the vowel triangle.
 }
 \references{
-Karlsson, F., & van Doorn, J. (2012). Vowel formant dispersion as a measure of articulation proficiency. The Journal of the Acoustical Society of America, 132(4), 2633–2641. doi:10.1121/1.4746025
+\insertRef{Karlsson:2012vb}{articulated}
 }
 \author{
 Fredrik Karlsson

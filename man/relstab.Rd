@@ -2,23 +2,21 @@
 % Please edit documentation in R/rythm.R
 \name{relstab}
 \alias{relstab}
-\title{Computes the "relative pace stability" of a vector of syllable durations.
-The vector must contain at least 20 syllables.}
+\title{Computes the "relative pace stability" of a vector of syllable durations.}
 \usage{
-relstab(x, kind = "5_12", na.rm = FALSE)
+relstab(x, kind = "5_12", omit = FALSE)
 }
 \arguments{
 \item{x}{The input vector containing syllable durations.}
 
 \item{kind}{Should the relative stability be computed for intervals $5..12$ (kind = "5_12") or $13..20$ (kind = "13_20").}
 
-\item{na.rm}{Should NA intervals be removed before computing the relative pace stability? Please note that one NA value in a syllable duration vector means that relstab(kind="5_12") will compute the stability of syllables 5-13 or 6-13 instead of 5-12 when the NA value is removed, which is  likelly not what you want.}
+\item{omit}{Should NA intervals be removed before computing the relative pace stability? Please note that one NA value in a syllable duration vector means that relstab(kind="5_12") will compute the stability of syllables 5-13 or 6-13 instead of 5-12 when the NA value is removed, which is  likelly not what you want.}
 }
 \value{
 A single numeric value indicating the relative pace stability, or NA if the vector was not long enough.
 }
 \description{
-Computes the "relative pace stability" of a vector of syllable durations.
 The vector must contain at least 20 syllables.
 }
 \references{

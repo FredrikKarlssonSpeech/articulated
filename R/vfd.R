@@ -279,14 +279,7 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 #' @param density.threshold The fraction of the maximum density of vowels below which the density will be considered zero.
 #' 
 #'
-#' @return
-#' An object of class [geometry::convhulln] consisting of 
-#' \begin{description}
-#'  \item{p}{A matrix of median normalized vowel space coordinates (F2,F1)}
-#'  \item{hull}{An n x 2 matrix giving the indicies of vowels in [p] which form the points holding up the convex hull}
-#'  \item{area}{The computed area of the convex hull around the vowel space made up of portions of the vowel space with a high enough distribution of vowels}
-#'  \item{vol}{The computed vowlume of the shape around the vowel space distribution}
-#' \end{description}
+#' @return The vowel space area (in Hz^2). 
 #' @export
 #' @references 
 #'  \insertAllCited{}
@@ -318,8 +311,10 @@ VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
   gr <- na.omit(gr)
   
   if(nrow(gr) > 0){
-    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
-    
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=TRUE, options="FA")
+    #c("p","hull","area") |>
+    purrr::pluck("area")
+    units::set_units(ch,"Hz^2")
   }else{
     ch <- NA
   }
@@ -345,14 +340,7 @@ VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
 #' @param center Should the formant frequency measurements be centered using the mean frequency? This was not done in the original implementation.
 #' @param scale Should the formant frequency measurements be scaled to a 0-1 scale using the standard deviation of the formant frequencies? This was not done in the original implementation.
 #'
-#' @return
-#' An object of class [geometry::convhulln] consisting of 
-#' \begin{description}
-#'  \item{p}{A matrix of median normalized vowel space coordinates (F2,F1)}
-#'  \item{hull}{An n x 2 matrix giving the indicies of vowels in [p] which form the points holding up the convex hull}
-#'  \item{area}{The computed area of the convex hull around the vowel space made up of portions of the vowel space with a high enough distribution of vowels}
-#'  \item{vol}{The computed vowlume of the shape around the vowel space distribution}
-#' \end{description}
+#' @return The vowel space area (in Hz^2). 
 #' @export
 #' @references 
 #'  \insertAllCited{}
@@ -378,10 +366,34 @@ cVSA <- function(F2, F1, vowel_categories=5,threshold=0.3,center=FALSE,scale=FAL
   gr <- na.omit(fdf[fVector,])
 
   if(nrow(gr) > 0){
-    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA") |>
+      purrr::pluck("area")
+    units::set_units(ch,"Hz^2")
     
   }else{
     ch <- NA
   }
   return(ch)
+}
+
+
+#' Compute the Vowel space area from formant frequency values
+#'
+#' This function computes the area of a vowel space by taking the 2D convex hull of the space made by 
+#' vowels on an F1-F2 plane. The 
+#'
+#' @param F1 A vector of F1 formant frequency measurements, one for each measured vowel.
+#' @param F2 A vector of F2 formant frequency measurements, one for each measured vowel.
+
+#' @return The vowel space area (in Hz^2). 
+#'  
+#'  @examples 
+#'  data(pb)
+#'  VSA(pb[[,"F2"]],pb[[,"F1"]]) 
+
+VSA <- function(F1,F2){
+  vs <- as.matrix(cbind(F1,F2))
+  a <- geometry::convhulln(vs, output.options="FA") |>
+    purrr::pluck("area")
+  units::set_units(a,"Hz^2")
 }

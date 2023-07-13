@@ -51,6 +51,9 @@ outvs <- vector.space(vsdata$F1,vsdata$F2)
 summary(outvs)
 
 }
+\references{
+\insertRef{Karlsson:2012vb}{articulated}
+}
 \author{
 Fredrik Karlsson
 }

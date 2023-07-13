@@ -52,6 +52,8 @@ COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
 }
 
 ##' Computes the "relative pace stability" of a vector of syllable durations.
+##' 
+##' 
 ##' The vector must contain at least 20 syllables.
 ##' 
 ##' 
@@ -60,7 +62,7 @@ COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
 ##' 
 ##' @param x The input vector containing syllable durations.
 ##' @param kind Should the relative stability be computed for intervals $5..12$ (kind = "5_12") or $13..20$ (kind = "13_20").
-##' @param na.rm Should NA intervals be removed before computing the relative pace stability? Please note that one NA value in a syllable duration vector means that relstab(kind="5_12") will compute the stability of syllables 5-13 or 6-13 instead of 5-12 when the NA value is removed, which is  likelly not what you want. 
+##' @param omit Should NA intervals be removed before computing the relative pace stability? Please note that one NA value in a syllable duration vector means that relstab(kind="5_12") will compute the stability of syllables 5-13 or 6-13 instead of 5-12 when the NA value is removed, which is  likelly not what you want. 
 ##' 
 ##' @return A single numeric value indicating the relative pace stability, or NA if the vector was not long enough.
 ##' 
@@ -70,38 +72,47 @@ COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
 ##' 
 ##' 
 
-relstab <- function(x,kind="5_12",na.rm=FALSE ){
+relstab <- function(x,kind="5_12",omit=FALSE ){
   
   ps <- switch(kind,
-               "5_12" = cppRelstab(x,compstart = 5,compstop = 12,narm=na.rm),
-               "13_20" = cppRelstab(x,compstart = 13,compstop = 20,narm=na.rm)
+               "5_12" = articulated:::cppRelStab(x,start = 5,end = 12,omit=omit),
+               "13_20" = articulated:::cppRelStab(x,start = 13,end = 20,omit=omit)
                )
   if(is.null(ps)) stop("Error: You may only ask for kinds \"5_12\" and \"13_20\".")
   return(ps)
 }
 
 
-##' Computes pace acceleration (%PA) in  a vector of intervals.
+##' Computes pace acceleration in  a vector of intervals.
+##'
+##' Computes the pace acceleration of a DDK sequence according to the definition 
+##' in \insertCite{Flasskamp:2011jq}{articulated}.
 ##' 
-##' 
+##' Please note that one NA value in a syllable duration vector means
+##' that the function will compute the %PA of syllables up to the 21st (and
+##' not the 20th as was defined in the original publication), which is likelly
+##' not what you want. Please use `omit=TRUE` to handle this case. 
+##'
 ##' @author Fredrik Karlsson
 ##' @export
-##' 
-##' @param x The input vector containing syllable durations.
-##' @param return.na boolean;Return NA in the case there are not 20 intervals in the series?
-##' @param na.rm Should NA intervals be removed before computing the relative %PA? Please note that one NA value in a syllable duration vector means that the function will compute the %PA of syllables up to the 21st (and not the 20th as was defined in the original publication), which is likelly not what you want.
-##' 
-##' 
-##' @references
-##' 
-##' Flasskamp, A., Kotz, S. A., Schlegel, U., & Skodda, S. (2012). Acceleration of syllable repetition in Parkinson’s disease is more prominent in the left-side dominant patients. Parkinsonism & Related Disorders, 18(4), 343–347. doi: 10.1016/j.parkreldis.2011.11.021
-##' 
 ##'
+##' @param x The input vector containing syllable durations.
+##' @param return.na boolean;Return NA in the case there are not 20 intervals in
+##'   the series?
+##' @param omit Should NA intervals be removed before computing the relative
+##'   %PA? 
+##'
+##' @references 
+##'   \insertAllCited{}
+##'
+##' \insertRef{Flasskamp:2011jq}{articulated}
+##'
+##' 
 
-PA <- function(x,return.na=TRUE,na.rm=FALSE){
+PA <- function(x,return.na=TRUE,omit=FALSE){
   out <- NA
-  ps512 <- relstab(x,kind="5_12",na.rm=na.rm)
-  ps1320 <- relstab(x,kind="13_20",na.rm=na.rm)
+  ps512 <- relstab(x,kind="5_12",omit=omit)
+  ps1320 <- relstab(x,kind="13_20",omit=omit)
   out <-   ps1320 - ps512
   
   if(return.na){

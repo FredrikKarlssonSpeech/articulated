@@ -2,22 +2,33 @@
 % Please edit documentation in R/rythm.R
 \name{PA}
 \alias{PA}
-\title{Computes pace acceleration (%PA) in  a vector of intervals.}
+\title{Computes pace acceleration in  a vector of intervals.}
 \usage{
-PA(x, return.na = TRUE, na.rm = FALSE)
+PA(x, return.na = TRUE, omit = FALSE)
 }
 \arguments{
 \item{x}{The input vector containing syllable durations.}
 
-\item{return.na}{boolean;Return NA in the case there are not 20 intervals in the series?}
+\item{return.na}{boolean;Return NA in the case there are not 20 intervals in
+the series?}
 
-\item{na.rm}{Should NA intervals be removed before computing the relative %PA? Please note that one NA value in a syllable duration vector means that the function will compute the %PA of syllables up to the 21st (and not the 20th as was defined in the original publication), which is likelly not what you want.}
+\item{omit}{Should NA intervals be removed before computing the relative
+%PA?}
 }
 \description{
-Computes pace acceleration (%PA) in  a vector of intervals.
+Computes the pace acceleration of a DDK sequence according to the definition 
+in \insertCite{Flasskamp:2011jq}{articulated}.
+}
+\details{
+Please note that one NA value in a syllable duration vector means
+that the function will compute the %PA of syllables up to the 21st (and
+not the 20th as was defined in the original publication), which is likelly
+not what you want. Please use `omit=TRUE` to handle this case.
 }
 \references{
-Flasskamp, A., Kotz, S. A., Schlegel, U., & Skodda, S. (2012). Acceleration of syllable repetition in Parkinson’s disease is more prominent in the left-side dominant patients. Parkinsonism & Related Disorders, 18(4), 343–347. doi: 10.1016/j.parkreldis.2011.11.021
+\insertAllCited{}
+
+\insertRef{Flasskamp:2011jq}{articulated}
 }
 \author{
 Fredrik Karlsson

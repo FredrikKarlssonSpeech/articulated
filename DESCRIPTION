@@ -1,8 +1,8 @@
 Package: articulated
 Type: Package
 Title: This package adds 
-Version: 0.0.2
-Date: 2021-08-14
+Version: 0.1.0
+Date: 2023-07-13
 Author: Fredrik Karlsson
 Maintainer: Fredrik Karlsson <fredrik.k.karlsson@umu.se>
 Description: This package adds functions to assess articulation errors and phonatory function from acoustic data. 
@@ -10,10 +10,11 @@ License: GPL (>= 2)
 Imports: 
     ClusterR,
     geometry,
-    Rcpp (>= 1.0.3),
+    Rcpp,
     Rdpack,
-    Rfast
+    Rfast,
+    units
 RdMacros: Rdpack
 LinkingTo: Rcpp
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
