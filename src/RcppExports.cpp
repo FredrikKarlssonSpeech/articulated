@@ -10,6 +10,32 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// cpp_cov
+double cpp_cov(NumericVector x, bool na_rm);
+RcppExport SEXP _articulated_cpp_cov(SEXP xSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_cov(x, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_cov5_x
+double cpp_cov5_x(NumericVector x, int n, bool return_na, bool na_rm);
+RcppExport SEXP _articulated_cpp_cov5_x(SEXP xSEXP, SEXP nSEXP, SEXP return_naSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type return_na(return_naSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_cov5_x(x, n, return_na, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rPVI
 double rPVI(NumericVector x, bool omit);
 RcppExport SEXP _articulated_rPVI(SEXP xSEXP, SEXP omitSEXP) {
@@ -108,8 +134,136 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpp_missing_vec_numeric
+LogicalVector cpp_missing_vec_numeric(NumericVector x, double what_na);
+RcppExport SEXP _articulated_cpp_missing_vec_numeric(SEXP xSEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_missing_vec_numeric(x, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_missing_vec_character
+LogicalVector cpp_missing_vec_character(CharacterVector x, CharacterVector what_na);
+RcppExport SEXP _articulated_cpp_missing_vec_character(SEXP xSEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_missing_vec_character(x, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_missing_frac
+double cpp_missing_frac(NumericVector x, double what_na);
+RcppExport SEXP _articulated_cpp_missing_frac(SEXP xSEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_missing_frac(x, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_left_changepoint
+int cpp_left_changepoint(NumericVector x, double what_na);
+RcppExport SEXP _articulated_cpp_left_changepoint(SEXP xSEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_left_changepoint(x, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_right_changepoint
+int cpp_right_changepoint(NumericVector x, double what_na);
+RcppExport SEXP _articulated_cpp_right_changepoint(SEXP xSEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_right_changepoint(x, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_lm_slope
+double cpp_lm_slope(NumericVector y, double what_na);
+RcppExport SEXP _articulated_cpp_lm_slope(SEXP ySEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_lm_slope(y, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_peak_prominence
+double cpp_peak_prominence(NumericVector y, double what_na);
+RcppExport SEXP _articulated_cpp_peak_prominence(SEXP ySEXP, SEXP what_naSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type what_na(what_naSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_peak_prominence(y, what_na));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_vowel_center
+List cpp_vowel_center(NumericVector f1, NumericVector f2, std::string method, bool na_rm);
+RcppExport SEXP _articulated_cpp_vowel_center(SEXP f1SEXP, SEXP f2SEXP, SEXP methodSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type f1(f1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type f2(f2SEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_vowel_center(f1, f2, method, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_vowel_norms
+NumericVector cpp_vowel_norms(NumericVector f1, NumericVector f2, double f1c, double f2c);
+RcppExport SEXP _articulated_cpp_vowel_norms(SEXP f1SEXP, SEXP f2SEXP, SEXP f1cSEXP, SEXP f2cSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type f1(f1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type f2(f2SEXP);
+    Rcpp::traits::input_parameter< double >::type f1c(f1cSEXP);
+    Rcpp::traits::input_parameter< double >::type f2c(f2cSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_vowel_norms(f1, f2, f1c, f2c));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_vowel_angles
+NumericVector cpp_vowel_angles(NumericVector f1, NumericVector f2, double f1c, double f2c);
+RcppExport SEXP _articulated_cpp_vowel_angles(SEXP f1SEXP, SEXP f2SEXP, SEXP f1cSEXP, SEXP f2cSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type f1(f1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type f2(f2SEXP);
+    Rcpp::traits::input_parameter< double >::type f1c(f1cSEXP);
+    Rcpp::traits::input_parameter< double >::type f2c(f2cSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_vowel_angles(f1, f2, f1c, f2c));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_articulated_cpp_cov", (DL_FUNC) &_articulated_cpp_cov, 2},
+    {"_articulated_cpp_cov5_x", (DL_FUNC) &_articulated_cpp_cov5_x, 4},
     {"_articulated_rPVI", (DL_FUNC) &_articulated_rPVI, 2},
     {"_articulated_nPVI", (DL_FUNC) &_articulated_nPVI, 2},
     {"_articulated_jitter_local", (DL_FUNC) &_articulated_jitter_local, 5},
@@ -117,6 +271,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_articulated_jitter_rap", (DL_FUNC) &_articulated_jitter_rap, 5},
     {"_articulated_jitter_ppq5", (DL_FUNC) &_articulated_jitter_ppq5, 5},
     {"_articulated_cppRelStab", (DL_FUNC) &_articulated_cppRelStab, 4},
+    {"_articulated_cpp_missing_vec_numeric", (DL_FUNC) &_articulated_cpp_missing_vec_numeric, 2},
+    {"_articulated_cpp_missing_vec_character", (DL_FUNC) &_articulated_cpp_missing_vec_character, 2},
+    {"_articulated_cpp_missing_frac", (DL_FUNC) &_articulated_cpp_missing_frac, 2},
+    {"_articulated_cpp_left_changepoint", (DL_FUNC) &_articulated_cpp_left_changepoint, 2},
+    {"_articulated_cpp_right_changepoint", (DL_FUNC) &_articulated_cpp_right_changepoint, 2},
+    {"_articulated_cpp_lm_slope", (DL_FUNC) &_articulated_cpp_lm_slope, 2},
+    {"_articulated_cpp_peak_prominence", (DL_FUNC) &_articulated_cpp_peak_prominence, 2},
+    {"_articulated_cpp_vowel_center", (DL_FUNC) &_articulated_cpp_vowel_center, 4},
+    {"_articulated_cpp_vowel_norms", (DL_FUNC) &_articulated_cpp_vowel_norms, 4},
+    {"_articulated_cpp_vowel_angles", (DL_FUNC) &_articulated_cpp_vowel_angles, 4},
     {NULL, NULL, 0}
 };
 

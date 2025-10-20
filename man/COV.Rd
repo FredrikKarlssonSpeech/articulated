@@ -15,7 +15,7 @@ COV(x, na.rm = TRUE)
 The standard deviation / mean of a vector
 }
 \description{
-A simple utility function to compute the coefficient of variance for values in a vector
+This function now uses a high-performance Rcpp implementation for improved speed.
 }
 \author{
 Fredrik Karlsson

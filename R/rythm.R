@@ -1,6 +1,8 @@
 
 ##' A simple utility function to compute the coefficient of variance for values in a vector
 ##' 
+##' This function now uses a high-performance Rcpp implementation for improved speed.
+##' 
 ##' @author Fredrik Karlsson
 ##' @export
 ##' 
@@ -10,10 +12,8 @@
 ##' @return The standard deviation / mean of a vector
 
 
-COV <- function(x,na.rm=TRUE){
-  
-  out <- sd(x,na.rm=na.rm) / mean(x,na.rm=na.rm)
-  return(out)
+COV <- function(x, na.rm = TRUE){
+  cpp_cov(x, na_rm = na.rm)
 }
 
 ##' Computes the coefficient of variance for an interval vector based on the average of the first four elements in the vector of intervals.
@@ -34,21 +34,8 @@ COV <- function(x,na.rm=TRUE){
 ##' Skodda, S., Schlegel, U., Hoffmann, R., & Saft, C. (2013). Impaired motor speech performance in Huntington’s disease. Journal of Neural Transmission, 1–9–9. doi:10.1007/s00702-013-1115-9
 ##'
 
-COV5_x <- function(x,n=20,return.na=TRUE,na.rm=TRUE){
-
-  N <- length(x)
-  if( N < n){
-    if(return.na){
-      return(NA)
-    }else{
-      stop(paste("The length of the vector should be at least",n))
-    }
-  }else{
-      mid <- 5:n
-      out <- sd(x[mid],na.rm=na.rm) / (mean(x[1:4],na.rm=na.rm) / sqrt(n-4)) * 100
-      
-  }
-  return(out) 
+COV5_x <- function(x, n = 20, return.na = TRUE, na.rm = TRUE){
+  cpp_cov5_x(x, n = n, return_na = return.na, na_rm = na.rm)
 }
 
 ##' Computes the "relative pace stability" of a vector of syllable durations.

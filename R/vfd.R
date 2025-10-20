@@ -291,8 +291,8 @@ vector.space <- function(f1,f2,na.rm=TRUE,output=c("center","norms","angles","wh
 #'  plot(ch,xlab="<-Back / Front -> (F2)",ylab="<-Closed / Open -> (F1)")
 
 VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
-  F1med <- median(F1,na.rm=TRUE)
-  F2med <- median(F2,na.rm=TRUE)
+  F1med <- stats::median(F1, na.rm=TRUE)
+  F2med <- stats::median(F2, na.rm=TRUE)
   
   F1adj <- (F1 - F1med) / F1med
   F2adj <- (F2 - F2med) / F2med
@@ -308,17 +308,16 @@ VSD <-  function(F2, F1,resolution=0.05,grid.res=0.01,density.threshold=0.25){
   #Normalize to 0-1 to get a dist
   gr$count <- gr$count / max(gr$count)
   gr$count <- ifelse(gr$count >= density.threshold, gr$count, NA)    
-  gr <- na.omit(gr)
+  gr <- stats::na.omit(gr)
   
   if(nrow(gr) > 0){
     ch <- geometry::convhulln(gr[c("F2","F1")],output.options=TRUE, options="FA")
-    #c("p","hull","area") |>
-    purrr::pluck("area")
-    units::set_units(ch,"Hz^2")
+    ch_area <- ch$area
+    units::set_units(ch_area,"Hz^2")
   }else{
-    ch <- NA
+    ch_area <- NA
   }
-  return(ch)
+  return(ch_area)
 }
 
 #' Compute the Vowel space area using continuously measured formant frequency
@@ -363,17 +362,17 @@ cVSA <- function(F2, F1, vowel_categories=5,threshold=0.3,center=FALSE,scale=FAL
   #Keep only measurements with a likelihood above the threshold (0.3 in the original publication)
   fVector <- exp(clo$Log_likelihood) >= threshold*exp(clo$Log_likelihood)
   #Filter out unwanted vowel measurements
-  gr <- na.omit(fdf[fVector,])
+  gr <- stats::na.omit(fdf[fVector,])
 
   if(nrow(gr) > 0){
-    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA") |>
-      purrr::pluck("area")
-    units::set_units(ch,"Hz^2")
+    ch <- geometry::convhulln(gr[c("F2","F1")],output.options=c("p","hull","area"), options="FA")
+    ch_area <- ch$area
+    units::set_units(ch_area,"Hz^2")
     
   }else{
-    ch <- NA
+    ch_area <- NA
   }
-  return(ch)
+  return(ch_area)
 }
 
 
@@ -393,7 +392,7 @@ cVSA <- function(F2, F1, vowel_categories=5,threshold=0.3,center=FALSE,scale=FAL
 
 VSA <- function(F1,F2){
   vs <- as.matrix(cbind(F1,F2))
-  a <- geometry::convhulln(vs, output.options="FA") |>
-    purrr::pluck("area")
+  ch <- geometry::convhulln(vs, output.options="FA")
+  a <- ch$area
   units::set_units(a,"Hz^2")
 }

@@ -1,21 +1,30 @@
 Package: articulated
 Type: Package
-Title: This package adds 
-Version: 0.1.0
-Date: 2023-07-13
-Author: Fredrik Karlsson
-Maintainer: Fredrik Karlsson <fredrik.k.karlsson@umu.se>
-Description: This package adds functions to assess articulation errors and phonatory function from acoustic data. 
+Title: Speech Performance Assessment Tools
+Version: 0.3.0
+Date: 2025-10-20
+Author: Fredrik Nylén
+Maintainer: Fredrik Nylén <fredrik.nylen@umu.se>
+Description: Functions for assessing articulation errors and phonatory function
+    from acoustic data, with emphasis on diadochokinetic (DDK) tasks and vowel
+    space analysis. Includes rhythm metrics (PVI, jitter, pace acceleration),
+    vowel space metrics (VSA, VSD, cVSA), and integration with the superassp
+    package for streamlined acoustic analysis workflows.
 License: GPL (>= 2)
 Imports: 
     ClusterR,
     geometry,
-    Rcpp,
+    Rcpp (>= 1.0.0),
     Rdpack,
     Rfast,
     units
+Suggests:
+    superassp,
+    ggplot2,
+    ggforce,
+    testthat (>= 3.0.0)
 Depends: R (>= 4.1.0)
 RdMacros: Rdpack
 LinkingTo: Rcpp
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
