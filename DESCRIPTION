@@ -22,9 +22,12 @@ Suggests:
     superassp,
     ggplot2,
     ggforce,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Depends: R (>= 4.1.0)
 RdMacros: Rdpack
 LinkingTo: Rcpp
 Encoding: UTF-8
 RoxygenNote: 7.3.3
+VignetteBuilder: knitr

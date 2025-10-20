@@ -1,0 +1,45 @@
+---
+title: "Introduction to articulated"
+author: "Fredrik Nylén"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to articulated}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+The **articulated** package provides tools for assessing speech articulation performance from acoustic data with emphasis on clinical and research applications.
+
+### Key Features
+
+- **High Performance**: Rcpp implementations provide 10-100x speedup
+- **Comprehensive Metrics**: 30+ features covering rhythm and vowel space
+- **superassp Integration**: Seamless workflow with superassp package
+- **Batch Processing**: Parallel processing for large datasets
+- **Clinical Focus**: Metrics validated in speech pathology research
+
+## Quick Start
+
+```{r eval=FALSE}
+library(articulated)
+library(superassp)
+
+# Extract all features from audio file
+features <- lst_articulation("speech.wav")
+
+# View results
+print(features$vsa)   # Vowel space area
+print(features$npvi)  # Rhythm variability
+```
+
+See `vignette("superassp-integration")` for detailed workflows.

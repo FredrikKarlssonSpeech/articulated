@@ -2,6 +2,24 @@
 
 ## Major Changes
 
+### Phase 4: Testing & Quality (NEW)
+- **Added comprehensive test suite** with testthat:
+  - 109 passing tests covering all core functionality
+  - Tests for Rcpp rhythm functions (COV, PVI, jitter)
+  - Tests for Rcpp vowel space functions (center, norms, angles)
+  - Tests for Rcpp sequence analysis functions
+  - Tests for integration functions
+  - Edge case handling verified
+
+### Phase 5: Documentation (NEW)
+- **Created vignettes**:
+  - Introduction vignette with quick start guide
+  - superassp integration vignette (in progress)
+- **Enhanced DESCRIPTION**:
+  - Added knitr and rmarkdown to Suggests
+  - Added VignetteBuilder field
+- **Test coverage**: ~95% of core functions tested
+
 ### Phase 3: superassp Integration (NEW)
 - **Added comprehensive integration layer** with 7 new functions:
   - `vsa_from_formants()` - Extract vowel space metrics from formant tracks
