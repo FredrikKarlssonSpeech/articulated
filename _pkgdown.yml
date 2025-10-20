@@ -1,0 +1,118 @@
+url: https://fredrikkarlssonspeech.github.io/articulated/
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+
+home:
+  title: "articulated: Speech Articulation Assessment Tools"
+  description: >
+    High-performance R package for assessing speech articulation from acoustic 
+    data, with emphasis on clinical applications and speech pathology research.
+
+navbar:
+  structure:
+    left:  [home, intro, reference, articles, tutorials, news]
+    right: [search, github]
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: Introduction
+        href: articles/introduction.html
+      - text: superassp Integration
+        href: articles/superassp-integration.html
+    news:
+      text: Changelog
+      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/FredrikKarlssonSpeech/articulated
+
+reference:
+  - title: "Quick Start Functions"
+    desc: >
+      High-level functions for complete articulation analysis workflows.
+    contents:
+    - lst_articulation
+    - lst_rhythm
+    - lst_vowelspace
+    - articulation_from_audio
+    - articulated_batch
+    
+  - title: "Integration Functions"
+    desc: >
+      Functions for seamless integration with superassp package.
+    contents:
+    - vsa_from_formants
+    - rhythm_from_intensity
+    
+  - title: "Rhythm Metrics"
+    desc: >
+      Functions for computing speech rhythm and temporal variability metrics.
+    contents:
+    - COV
+    - COV5_x
+    - rPVI
+    - nPVI
+    - starts_with("jitter")
+    
+  - title: "Vowel Space Metrics"
+    desc: >
+      Functions for vowel space area and articulation precision.
+    contents:
+    - VSA
+    - VSD
+    - cVSA
+    - vowel_center
+    - euclidean_distance
+    
+  - title: "DDK Assessment"
+    desc: >
+      Functions for diadochokinetic (DDK) rate and regularity assessment.
+    contents:
+    - pace_acceleration
+    - relative_stability
+    - COV_syllable
+    
+  - title: "Voice Function Displays"
+    desc: >
+      Functions for phonetogram and voice range profile visualization.
+    contents:
+    - fonetogram
+    - PA
+    
+  - title: "Utility Functions"
+    desc: >
+      Helper functions for data processing and analysis.
+    contents:
+    - missing_vec
+    - missing_frac
+    - left_changepoint
+    - right_changepoint
+    - lm_slope
+    - peak_prominence
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
+  components:
+    developed_by: |
+      Developed by [Fredrik Nylén](https://www.umu.se/en/staff/fredrik-nylen/)
+      at Umeå University.
+    built_with: |
+      Built with [pkgdown](https://pkgdown.r-lib.org/).
+
+authors:
+  Fredrik Nylén:
+    href: https://www.umu.se/en/staff/fredrik-nylen/

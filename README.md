@@ -1,9 +1,10 @@
-# articulated <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# articulated
 
 <!-- badges: start -->
-[![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen)](https://github.com/yourusername/articulated)
-[![test coverage](https://img.shields.io/badge/test%20coverage-95%25-brightgreen)](https://github.com/yourusername/articulated)
+[![R-CMD-check](https://github.com/FredrikKarlssonSpeech/articulated/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/FredrikKarlssonSpeech/articulated/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/FredrikKarlssonSpeech/articulated/branch/master/graph/badge.svg)](https://app.codecov.io/gh/FredrikKarlssonSpeech/articulated?branch=master)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Speech Articulation Assessment Tools
@@ -23,7 +24,7 @@
 
 ```r
 # Install from GitHub
-devtools::install_github("yourusername/articulated")
+devtools::install_github("FredrikKarlssonSpeech/articulated")
 
 # Install superassp for audio processing
 install.packages("superassp")
@@ -269,7 +270,8 @@ Contributions are welcome! Please:
 
 ## Support
 
-- **Issues**: https://github.com/yourusername/articulated/issues
+- **Issues**: https://github.com/FredrikKarlssonSpeech/articulated/issues
+- **Documentation**: https://fredrikkarlssonspeech.github.io/articulated/
 - **Email**: fredrik.nylen@umu.se
 
 ## Related Packages

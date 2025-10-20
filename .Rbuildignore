@@ -16,3 +16,5 @@ QUICK_REFERENCE\.md$
 README_ASSESSMENT\.md$
 ^data-raw$
 ^\.DS_Store$
+^codecov\.yml$
+^\.covrignore$
