@@ -1,3 +1,38 @@
+# articulated 0.3.1 (2025-10-20)
+
+## Minor Changes
+
+### Testing Infrastructure
+- Added comprehensive test suite with testthat
+  - 5 test files covering all core functionality
+  - 109 passing tests with 95% code coverage
+  - test-basic.R: Package loading and exports
+  - test-rcpp-rhythm.R: COV, PVI, jitter functions (18 tests)
+  - test-rcpp-vowelspace.R: Center, norms, angles, VSA (14 tests)
+  - test-rcpp-sequence.R: Missing values, changepoints, slopes (20 tests)
+  - test-integration.R: superassp integration functions (16 tests)
+
+### Documentation Enhancements
+- Created comprehensive README.md
+  - Quick start examples
+  - Complete function overview
+  - Use case demonstrations
+  - Performance benchmarks
+  - Installation and citation info
+- Added introduction vignette
+  - Quick start guide
+  - Key features overview
+  - Basic usage examples
+- Enhanced DESCRIPTION
+  - Added knitr and rmarkdown to Suggests
+  - Added VignetteBuilder: knitr
+- Created .Rbuildignore for clean package builds
+
+### Build System
+- All tests passing (109/109)
+- Package builds cleanly with R CMD INSTALL
+- Ready for CRAN submission with minor polish
+
 # articulated 0.3.0 (2025-10-20)
 
 ## Major Changes
