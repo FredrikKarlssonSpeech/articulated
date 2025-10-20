@@ -2,6 +2,24 @@
 
 ## Major Changes
 
+### Phase 3: superassp Integration (NEW)
+- **Added comprehensive integration layer** with 7 new functions:
+  - `vsa_from_formants()` - Extract vowel space metrics from formant tracks
+  - `rhythm_from_intensity()` - Extract rhythm metrics from intensity tracks
+  - `articulation_from_audio()` - Complete articulation analysis
+  - `lst_articulation()` - Full feature extraction (lst_* style)
+  - `lst_rhythm()` - Rhythm-only features
+  - `lst_vowelspace()` - Vowel space-only features
+  - `articulated_batch()` - Parallel batch processing
+
+### Integration Features
+- **Seamless superassp workflow**: Direct processing of trk_* outputs
+- **Flexible analysis**: Time windowing, multiple VSA methods, custom parameters
+- **Batch processing**: Parallel execution for large datasets
+- **Consistent API**: lst_* functions match superassp design patterns
+- **Comprehensive metrics**: ~30 features per audio file
+- **Error handling**: Graceful degradation with informative warnings
+
 ### Performance Improvements
 - **Migrated core functions to Rcpp** for 10-100x speedup:
   - `COV()` and `COV5_x()` now use `cpp_cov()` and `cpp_cov5_x()`
