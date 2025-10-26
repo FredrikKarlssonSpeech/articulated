@@ -1,8 +1,8 @@
 Package: articulated
 Type: Package
 Title: Speech Performance Assessment Tools
-Version: 0.3.1
-Date: 2025-10-20
+Version: 0.3.2
+Date: 2025-10-26
 Author: Fredrik Nylén
 Maintainer: Fredrik Nylén <fredrik.nylen@umu.se>
 Description: Functions for assessing articulation errors and phonatory function
@@ -17,7 +17,8 @@ Imports:
     Rcpp (>= 1.0.0),
     Rdpack,
     Rfast,
-    units
+    units,
+    av
 Suggests:
     superassp,
     ggplot2,
@@ -36,3 +37,5 @@ RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 URL: https://fredrikkarlssonspeech.github.io/articulated/, https://github.com/FredrikKarlssonSpeech/articulated
 BugReports: https://github.com/FredrikKarlssonSpeech/articulated/issues
+Remotes:
+  github::humlab-speech/av
