@@ -1,0 +1,58 @@
+<svg width="200" height="231" xmlns="http://www.w3.org/2000/svg">
+ <!-- Definitions -->
+ <defs>
+  <path fill="none" d="m40,179q60,36 120,0" id="textCurve"/>
+  <linearGradient y2="100%" x2="0%" y1="0%" x1="0%" id="bgGradient">
+   <stop stop-color="#2C5F8D" offset="0%"/>
+   <stop stop-color="#1A3A52" offset="100%"/>
+  </linearGradient>
+ </defs>
+ <!-- Background layer -->
+ <!-- Foreground content layer -->
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" stroke-width="3" stroke="#8ED1FC" fill="url(#bgGradient)" d="m99.75001,2.5001l95.00001,57.5l0,106.00001l-95.00001,57.5l-95,-57.5l0,-106.00001l95,-57.5z"/>
+  <!-- Stylized segmented centipede -->
+  <!-- Head -->
+  <ellipse id="svg_2" stroke="#E09F3D" fill="#FFB84D" ry="15" rx="18" cy="57.50051" cx="99.00004"/>
+  <circle id="svg_3" fill="#1A3A52" r="3" cy="54.50051" cx="93.00004"/>
+  <circle id="svg_4" fill="#1A3A52" r="3" cy="54.50051" cx="105.00004"/>
+  <!-- Antennae -->
+  <path id="svg_5" stroke-linecap="round" fill="none" stroke-width="2.5" stroke="#FFB84D" d="m87.00004,52.50051q-10,-7 -13,-15"/>
+  <path id="svg_6" stroke-linecap="round" fill="none" stroke-width="2.5" stroke="#FFB84D" d="m111.00004,52.50051q10,-7 13,-15"/>
+  <!-- Body segments with legs -->
+  <!-- Segment 1 -->
+  <ellipse id="svg_7" stroke="#D88A48" fill="#F4A460" ry="12" rx="16" cy="75.50051" cx="99.00004"/>
+  <line id="svg_8" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="82.50051" x2="69.00004" y1="75.50051" x1="83.00004"/>
+  <line id="svg_9" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="82.50051" x2="129.00004" y1="75.50051" x1="115.00004"/>
+  <!-- Segment 2 -->
+  <ellipse id="svg_10" stroke="#E09F3D" fill="#FFB84D" ry="11" rx="15" cy="91.50051" cx="99.00004"/>
+  <line id="svg_11" stroke-linecap="round" stroke-width="3" stroke="#FFB84D" y2="99.50051" x2="71.00004" y1="91.50051" x1="84.00004"/>
+  <line id="svg_12" stroke-linecap="round" stroke-width="3" stroke="#FFB84D" y2="99.50051" x2="127.00004" y1="91.50051" x1="114.00004"/>
+  <!-- Segment 3 -->
+  <ellipse id="svg_13" stroke="#D88A48" fill="#F4A460" ry="10" rx="14" cy="106.50051" cx="99.00004"/>
+  <line id="svg_14" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="115.50051" x2="73.00004" y1="106.50051" x1="85.00004"/>
+  <line id="svg_15" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="115.50051" x2="125.00004" y1="106.50051" x1="113.00004"/>
+  <!-- Segment 4 -->
+  <ellipse id="svg_16" stroke="#E09F3D" fill="#FFB84D" ry="9" rx="13" cy="120.50051" cx="99.00004"/>
+  <line id="svg_17" stroke-linecap="round" stroke-width="3" stroke="#FFB84D" y2="130.50051" x2="75.00004" y1="120.50051" x1="86.00004"/>
+  <line id="svg_18" stroke-linecap="round" stroke-width="3" stroke="#FFB84D" y2="130.50051" x2="123.00004" y1="120.50051" x1="112.00004"/>
+  <!-- Segment 5 -->
+  <ellipse id="svg_19" stroke="#D88A48" fill="#F4A460" ry="8" rx="12" cy="133.50051" cx="99.00004"/>
+  <line id="svg_20" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="144.50051" x2="77.00004" y1="133.50051" x1="87.00004"/>
+  <line id="svg_21" stroke-linecap="round" stroke-width="3" stroke="#F4A460" y2="144.50051" x2="121.00004" y1="133.50051" x1="111.00004"/>
+  <!-- Segment 6 -->
+  <ellipse id="svg_22" stroke="#E09F3D" fill="#FFB84D" ry="7" rx="11" cy="145.50051" cx="99.00004"/>
+  <line id="svg_23" stroke-linecap="round" stroke-width="2.5" stroke="#FFB84D" y2="156.50051" x2="79.00004" y1="145.50051" x1="88.00004"/>
+  <line id="svg_24" stroke-linecap="round" stroke-width="2.5" stroke="#FFB84D" y2="156.50051" x2="119.00004" y1="145.50051" x1="110.00004"/>
+  <!-- Segment 7 (tail) -->
+  <ellipse id="svg_25" stroke="#D88A48" fill="#F4A460" ry="6" rx="9" cy="156.50051" cx="99.00004"/>
+  <line id="svg_26" stroke-linecap="round" stroke-width="2.5" stroke="#F4A460" y2="166.50051" x2="82.00004" y1="156.50051" x1="90.00004"/>
+  <line id="svg_27" stroke-linecap="round" stroke-width="2.5" stroke="#F4A460" y2="166.50051" x2="116.00004" y1="156.50051" x1="108.00004"/>
+  <!-- Sound wave decoration (representing speech articulation) -->
+  <!-- Package name (curved) -->
+  <text transform="matrix(1 0 0 1 0 0) translate(-0.999959 0.499979) translate(2.24991 5.24978) matrix(1 0 0 1 0 0) translate(-0.749969 -9.99959) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) translate(-0.499979 1.49994) translate(-0.24999 -2.4999) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)" id="svg_30" xml:space="default" fill="#FFFFFF" font-weight="bold" font-size="20" font-family="Arial, sans-serif">
+   <textPath text-anchor="middle" startOffset="63" href="#textCurve">articulated</textPath>
+  </text>
+ </g>
+</svg>
